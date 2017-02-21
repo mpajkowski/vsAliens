@@ -2,29 +2,37 @@
 // Created by marcin on 15.01.17.
 //
 
-#ifndef VSALIENS_FUNCTIONAL_H
-#define VSALIENS_FUNCTIONAL_H
+#pragma once
 
 #include "../include/shared.h"
-#include "../include/Character.h"
 #include "../include/Ship.h"
+#include "../include/Enemy.h"
 #include "../include/Bullet.h"
+#include "../include/Button.h"
 
-namespace functional
-{
-    // constants
-    const float OBJ_SPEED = 100;
-
+namespace functional {
     // functions
     void
-    handleEvents(sf::Event& event, sf::Clock& clock,
-                 sf::RenderWindow& window, Ship* ship,
-                 bullet_Arr& bullets);
+    handleEvents(sf::Event& event, sf::RenderWindow& window,
+                 Ship& ship, bullet_Arr& bullets,
+                 sf::Clock& clock, float& deltaTime);
 
     void
-    fireBullet(Ship* ship, bullet_Arr& bullets);
+    drawScreen(sf::RenderWindow& window, Ship& ship, enemies_Arr& enemies,
+               bullet_Arr& bullets);
 
     void
-    bulletsUpdate(bullet_Arr& bullets);
+    fireBullet(Ship& ship, bullet_Arr& bullets);
+
+    void
+    bulletsUpdate(bullet_Arr& bullets, float& deltaTime);
+
+    void
+    spawnEnemies(enemies_Arr& enemies);
+
+    void
+    enemiesUpdate(enemies_Arr& enemies, float& deltaTime);
+
+    void
+    checkCollisions(Ship& ship, enemies_Arr& enemies, bullet_Arr& bullets);
 }
-#endif //VSALIENS_FUNCTIONAL_H

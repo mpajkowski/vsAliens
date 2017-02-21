@@ -5,24 +5,17 @@
 #include "../include/shared.h"
 #include "../include/Bullet.h"
 
-Bullet::Bullet(Ship* ship)
+Bullet::Bullet(Ship& ship)
 {
-    if(!texture.loadFromFile("images/bullet.bmp"))
-    {
-        std::cout << "kurwa mac" << std::endl;
-    }
+    texture.loadFromFile("images/bullet.bmp");
+
     sprite.setTexture(texture);
     sprite.setOrigin(2, 8);
     sprite.setColor(sf::Color::Black);
 
-    pos.x = ship->getPosition().x;
-    pos.y = ship->getPosition().y;
+    pos.x = ship.getPosition().x;
+    pos.y = ship.getPosition().y - 20;
     sprite.setPosition(pos);
-}
-
-Bullet::~Bullet()
-{
-
 }
 
 void
@@ -34,5 +27,20 @@ Bullet::draw(sf::RenderTarget &target, sf::RenderStates states) const
 sf::Vector2f
 Bullet::getPos()
 {
-    return pos;
+    return sprite.getPosition();
+}
+
+void
+Bullet::updateBullet(float& deltaTime) {
+    sprite.move(0, -500 * deltaTime);
+}
+
+sf::Sprite
+Bullet::getSprite() {
+    return sprite;
+}
+
+sf::FloatRect
+Bullet::getBounds() {
+    return sprite.getGlobalBounds();
 }

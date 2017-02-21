@@ -1,40 +1,53 @@
-#include <iostream>// test
+/**
+ * vsAliens
+ * main.cpp
+ *
+ * Main function implementation
+ */
+
 #include "../include/shared.h"
 #include "../include/functional.h"
 
-int main()
-{
-    sf::RenderWindow window(sf::VideoMode(1000, 768, 32), "vsAliens");
+int main() {
+    srand(time(NULL));
     /////////////////////////////////////////////////
-    sf::Texture shipTexture;                   //////
-    shipTexture.loadFromFile("images/ship.bmp"); ////
-                                                /////
-    Ship* ship = new Ship(shipTexture);        //////
+    // Game window
+    sf::RenderWindow window(sf::VideoMode(settings::window::WIDTH,
+                            settings::window::HEIGHT, 32), "vsAliens",
+                            sf::Style::Titlebar);
     /////////////////////////////////////////////////
-
+    // New ship object
+    settings::textures::shipTexture.loadFromFile("images/ship.bmp");
+    Ship ship(settings::textures::shipTexture);
+    /////////////////////////////////////////////////
+    // Enemies
+    sf::Texture enemyTexture;
+    settings::textures::enemyTexture.loadFromFile("images/alien.bmp");
+    enemies_Arr enemies;
+    /////////////////////////////////////////////////
+    // vector-type container for visible bullets fired by player
     bullet_Arr bullets;
+    /////////////////////////////////////////////////
     sf::Event event;
     sf::Clock clock;
 
-    while(window.isOpen())
-    {
-        functional::handleEvents(event, clock, window, ship, bullets);
+    float deltaTime = 0;
 
-        window.clear(sf::Color::White);
-        window.draw(*ship);
+    window.setKeyRepeatEnabled(false);
 
-        for (int i = 0; i < bullets.size(); i++)
-        {
-            window.draw(bullets[i]);
-        }
-        /* std::cout << ship->getPosition().x <<
-                "x" << ship->getPosition().y <<
-                std::endl; */
-        window.display();
+    /////////////////////////////////////////////////
+    // Game mainloop
+    while (window.isOpen()) {
+        functional::handleEvents(event, window, ship, bullets, clock, deltaTime);
+        functional::checkCollisions(ship, enemies, bullets);
+        ship.updatePos(deltaTime);
+        functional::bulletsUpdate(bullets, deltaTime);
+        functional::enemiesUpdate(enemies, deltaTime);
+
+        deltaTime = clock.restart().asSeconds();
+
+        functional::drawScreen(window, ship, enemies, bullets);
     }
-
-    //delete ship;
-    delete ship;
 
     return 0;
 }

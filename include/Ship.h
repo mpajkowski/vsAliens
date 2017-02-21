@@ -1,17 +1,20 @@
-//
-// Created by marcin on 15.01.17.
-//
+/**
+ * vsAliens
+ * main.cpp
+ *
+ * Class Ship
+ */
 
-#ifndef VSALIENS_SHIP_H
-#define VSALIENS_SHIP_H
-#include "../include/Character.h"
+#pragma once
 
-class Ship : public Character
-{
+#include "../include/shared.h"
+#include "Character.h"
+
+class Ship : public Character {
 public:
     Ship(const sf::Texture& texture);
-    void shoot();
+    void addLife();
+    void removeLife();
+private:
+    int lives;
 };
-
-
-#endif //VSALIENS_SHIP_H
