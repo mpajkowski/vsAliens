@@ -13,8 +13,4 @@
 class Ship : public Character {
 public:
     Ship(const sf::Texture& texture);
-    void addLife();
-    void removeLife();
-private:
-    int lives;
 };

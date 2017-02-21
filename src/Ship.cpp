@@ -10,13 +10,4 @@
 Ship::Ship(const sf::Texture& texture) :
         Character(texture, 30, 24, settings::ship::MOVE_SPEED) {
     this->setPosition(500, 600);
-    lives = 1;
-}
-
-void Ship::addLife() {
-    ++lives;
-}
-
-void Ship::removeLife() {
-    --lives;
 }

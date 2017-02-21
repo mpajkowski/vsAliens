@@ -62,7 +62,7 @@ functional::handleEvents(sf::Event& event, sf::RenderWindow& window,
 
 void
 functional::drawScreen(sf::RenderWindow& window, Ship& ship, enemies_Arr& enemies,
-                       bullet_Arr& bullets, sf::Text& score) {
+                       bullet_Arr& bullets, sf::Text& score, sf::Text& lives) {
     window.clear(sf::Color::White);
     window.draw(ship);
 
@@ -75,6 +75,7 @@ functional::drawScreen(sf::RenderWindow& window, Ship& ship, enemies_Arr& enemie
     }
 
     window.draw(score);
+    window.draw(lives);
 
     window.display();
 }
@@ -126,6 +127,12 @@ functional::updateScore(sf::Text& score) {
 }
 
 void
+functional::updateLives(sf::Text& lives) {
+    std::string msg = "Lives: " + std::to_string(stats::game::lives);
+    lives.setString(msg);
+}
+
+void
 functional::checkCollisions(Ship& ship, enemies_Arr& enemies, bullet_Arr& bullets) {
     for (enemies_Arr::size_type i = 0; i < enemies.size(); ++i) {
         for (bullet_Arr::size_type j = 0; j < bullets.size(); ++j) {
@@ -137,7 +144,7 @@ functional::checkCollisions(Ship& ship, enemies_Arr& enemies, bullet_Arr& bullet
         }
 
         if (ship.getBounds().intersects(enemies[ i ].getBounds())) {
-            ship.removeLife();
+            stats::game::lives--;
             ship.setPosition(500, 600);
         }
     }

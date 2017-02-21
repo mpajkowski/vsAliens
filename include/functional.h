@@ -19,7 +19,7 @@ namespace functional {
 
     void
     drawScreen(sf::RenderWindow& window, Ship& ship, enemies_Arr& enemies,
-               bullet_Arr& bullets, sf::Text& score);
+               bullet_Arr& bullets, sf::Text& score, sf::Text& lives);
 
     void
     fireBullet(Ship& ship, bullet_Arr& bullets);
@@ -35,6 +35,9 @@ namespace functional {
 
     void
     updateScore(sf::Text& score);
+
+    void
+    updateLives(sf::Text& lives);
 
     void
     checkCollisions(Ship& ship, enemies_Arr& enemies, bullet_Arr& bullets);
