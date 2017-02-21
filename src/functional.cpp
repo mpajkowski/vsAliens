@@ -62,7 +62,7 @@ functional::handleEvents(sf::Event& event, sf::RenderWindow& window,
 
 void
 functional::drawScreen(sf::RenderWindow& window, Ship& ship, enemies_Arr& enemies,
-                       bullet_Arr& bullets) {
+                       bullet_Arr& bullets, sf::Text& lives) {
     window.clear(sf::Color::White);
     window.draw(ship);
 
@@ -73,6 +73,8 @@ functional::drawScreen(sf::RenderWindow& window, Ship& ship, enemies_Arr& enemie
     for (bullet_Arr::size_type i = 0; i < bullets.size(); ++i) {
         window.draw(bullets[ i ]);
     }
+
+    window.draw(lives);
 
     window.display();
 }
@@ -129,7 +131,7 @@ functional::checkCollisions(Ship& ship, enemies_Arr& enemies, bullet_Arr& bullet
 
         if (ship.getBounds().intersects(enemies[ i ].getBounds())) {
             ship.removeLife();
-            ship.setPosition(settings::window::HEIGHT - 50, settings::window::WIDTH / 2);
+            ship.setPosition(500, 600);
         }
     }
 }

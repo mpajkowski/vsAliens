@@ -30,6 +30,16 @@ int main() {
     /////////////////////////////////////////////////
     sf::Event event;
     sf::Clock clock;
+    /////////////////////////////////////////////////
+    sf::Font font;
+    font.loadFromFile("arial.ttf");
+    /////////////////////////////////////////////////
+    // lives text field
+    sf::Text lives;
+    lives.setFont(font);
+    lives.setString("Lives");
+    lives.setCharacterSize(24);
+    lives.setColor(sf::Color::Red);
 
     float deltaTime = 0;
 
@@ -46,7 +56,7 @@ int main() {
 
         deltaTime = clock.restart().asSeconds();
 
-        functional::drawScreen(window, ship, enemies, bullets);
+        functional::drawScreen(window, ship, enemies, bullets, lives);
     }
 
     return 0;
