@@ -1,3 +1,8 @@
 *~
 vsAliens
 images/*.xfc
+*.dll
+*.exe
+*.cbp
+obj/*
+*.depend
