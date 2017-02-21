@@ -8,7 +8,6 @@
 #include "../include/Ship.h"
 #include "../include/Enemy.h"
 #include "../include/Bullet.h"
-#include "../include/Button.h"
 #include "../include/functional.h"
 #include "../include/stats.h"
 

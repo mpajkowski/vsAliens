@@ -7,6 +7,7 @@
 
 #include "../include/shared.h"
 #include "../include/functional.h"
+#include "../include/stats.h"
 
 int main() {
     /////////////////////////////////////////////////
@@ -42,14 +43,13 @@ int main() {
     sf::Text score;
     score.setFont(font);
     score.setCharacterSize(24);
-    score.setColor(sf::Color::Black);
+    score.setFillColor(sf::Color::Black);
     /////////////////////////////////////////////////
     // lives text field
     sf::Text lives;
     lives.setFont(font);
-    lives.setString("Lives: ");
     lives.setCharacterSize(24);
-    lives.setColor(sf::Color::Black);
+    lives.setFillColor(sf::Color::Black);
     lives.setPosition(settings::window::WIDTH - 100, 0);
 
     float deltaTime = 0;
@@ -59,14 +59,15 @@ int main() {
     /////////////////////////////////////////////////
     // Game mainloop
     while (window.isOpen()) {
-        functional::handleEvents(event, window, ship, bullets, clock, deltaTime);
-        functional::checkCollisions(ship, enemies, bullets);
-        ship.updatePos(deltaTime);
-        functional::bulletsUpdate(bullets, deltaTime);
-        functional::enemiesUpdate(enemies, deltaTime);
-        functional::updateScore(score);
-        functional::updateLives(lives);
-
+        if (stats::game::isActive) {
+            functional::handleEvents(event, window, ship, bullets, clock, deltaTime);
+            functional::checkCollisions(ship, enemies, bullets);
+            ship.updatePos(deltaTime);
+            functional::bulletsUpdate(bullets, deltaTime);
+            functional::enemiesUpdate(enemies, deltaTime);
+            functional::updateScore(score);
+            functional::updateLives(lives);
+        }
         deltaTime = clock.restart().asSeconds();
 
         functional::drawScreen(window, ship, enemies, bullets, score, lives);

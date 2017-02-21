@@ -2,20 +2,18 @@
 // Created by marcin on 2/1/17.
 //
 
-#ifndef VSALIENS_STATS_H
-#define VSALIENS_STATS_H
+#pragma once
 
 #include <ctime>
 
 namespace stats {
     namespace game {
-        bool isActive = false;
-        int score = 0;
-        int lives = 1;
+        extern bool isActive;
+        extern int score;
+        extern int lives;
     }
     namespace enemy {
-        time_t lastSpawnTime;
-        int enemyCounter_test;
+        extern time_t lastSpawnTime;
+        extern int enemyCounter_test;
     }
 }
-#endif //VSALIENS_STATS_H

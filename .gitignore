@@ -5,3 +5,4 @@ images/*.xfc
 *.cbp
 obj/*
 *.depend
+*.layout
