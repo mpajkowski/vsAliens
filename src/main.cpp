@@ -35,11 +35,11 @@ int main() {
     font.loadFromFile("arial.ttf");
     /////////////////////////////////////////////////
     // lives text field
-    sf::Text lives;
-    lives.setFont(font);
-    lives.setString("Lives");
-    lives.setCharacterSize(24);
-    lives.setColor(sf::Color::Red);
+    sf::Text score;
+    score.setFont(font);
+    score.setString("Lives");
+    score.setCharacterSize(24);
+    score.setColor(sf::Color::Red);
 
     float deltaTime = 0;
 
@@ -53,10 +53,11 @@ int main() {
         ship.updatePos(deltaTime);
         functional::bulletsUpdate(bullets, deltaTime);
         functional::enemiesUpdate(enemies, deltaTime);
+        functional::updateScore(score);
 
         deltaTime = clock.restart().asSeconds();
 
-        functional::drawScreen(window, ship, enemies, bullets, lives);
+        functional::drawScreen(window, ship, enemies, bullets, score);
     }
 
     return 0;

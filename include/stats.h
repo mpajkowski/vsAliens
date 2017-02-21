@@ -10,6 +10,7 @@
 namespace stats {
     namespace game {
         bool isActive = false;
+        int score = 0;
     }
     namespace enemy {
         time_t lastSpawnTime;
