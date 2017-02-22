@@ -28,4 +28,8 @@ namespace settings {
     namespace fonts {
         extern sf::Font font;
     }
+
+    namespace bullet {
+        extern double speed;
+        }
 }

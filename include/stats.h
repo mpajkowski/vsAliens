@@ -16,4 +16,8 @@ namespace stats {
         extern sf::Vector2f lastPos;
         extern int fragCounter;
     }
+
+    namespace bullet {
+        extern double speed;
+    }
 }

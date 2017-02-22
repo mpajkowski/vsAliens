@@ -66,11 +66,14 @@ functional::handleEvents(sf::Event& event, sf::RenderWindow& window,
 }
 
 void
-functional::gameOver(sf::Text& lives) {
+functional::gameOver(sf::Text& lives, enemies_Arr& enemies) {
     lives.setString("Game Over");
     lives.setPosition(settings::window::WIDTH - 150, 0);
     stats::game::score = 0;
     stats::game::lives = 1;
+    stats::bullet::speed = settings::bullet::speed;
+    enemies.clear();
+
     stats::game::isActive = false;
 }
 
@@ -179,7 +182,7 @@ functional::checkCollisions(Ship& ship, enemies_Arr& enemies, bullet_Arr& bullet
             stats::game::lives--;
             ship.setPosition(500, 600);
             if (stats::game::lives < 1) {
-                gameOver(lives);
+                gameOver(lives, enemies);
             }
         }
     }
@@ -195,7 +198,7 @@ functional::checkCollisions(Ship& ship, enemies_Arr& enemies, bullet_Arr& bullet
                     ++stats::game::lives;
                     break;
                 case Bonus::faster_bullet :
-                    stats::bullet::speed *= 1.1;
+                    stats::bullet::speed *= 3;
                     break;
                 default :
                     break;
