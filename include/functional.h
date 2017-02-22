@@ -14,7 +14,8 @@ namespace functional {
     void
     handleEvents(sf::Event& event, sf::RenderWindow& window,
                  Ship& ship, bullet_Arr& bullets,
-                 sf::Clock& clock, float& deltaTime);
+                 sf::Text& lives, sf::Clock& clock,
+                 float& deltaTime);
 
     void
     drawScreen(sf::RenderWindow& window, Ship& ship, enemies_Arr& enemies,
@@ -39,5 +40,5 @@ namespace functional {
     updateLives(sf::Text& lives);
 
     void
-    checkCollisions(Ship& ship, enemies_Arr& enemies, bullet_Arr& bullets);
+    checkCollisions(Ship& ship, enemies_Arr& enemies, bullet_Arr& bullets, sf::Text& lives);
 }

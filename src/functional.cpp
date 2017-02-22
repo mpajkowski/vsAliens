@@ -14,7 +14,8 @@
 void
 functional::handleEvents(sf::Event& event, sf::RenderWindow& window,
                          Ship& ship, bullet_Arr& bullets,
-                         sf::Clock& clock, float& deltaTime) {
+                         sf::Text& lives, sf::Clock& clock,
+                         float& deltaTime) {
     while (window.pollEvent(event)) {
         switch (event.type) {
             case sf::Event::Closed :
@@ -24,35 +25,36 @@ functional::handleEvents(sf::Event& event, sf::RenderWindow& window,
                 if (event.key.code == sf::Keyboard::Q) {
                     window.close();
                 } else if (event.key.code == sf::Keyboard::Space) {
-                    fireBullet(ship, bullets);
+                    if (!stats::game::isActive) {
+                        stats::game::isActive = true;
+                        lives.setPosition(settings::window::WIDTH - 100, 0);
+                    } else {
+                        fireBullet(ship, bullets);
+                    }
                 }
                 break;
         }
     }
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) //move up
-    {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
         ship.setMoveFlag(Ship::up, true);
     } else {
         ship.setMoveFlag(Ship::up, false);
     }
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) //move down
-    {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
         ship.setMoveFlag(Ship::down, true);
     } else {
         ship.setMoveFlag(Ship::down, false);
     }
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) //move right
-    {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
         ship.setMoveFlag(Ship::right, true);
     } else {
         ship.setMoveFlag(Ship::right, false);
     }
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) //move left
-    {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
         ship.setMoveFlag(Ship::left, true);
     } else {
         ship.setMoveFlag(Ship::left, false);
@@ -99,13 +101,12 @@ functional::bulletsUpdate(bullet_Arr& bullets, float& deltaTime) {
 void
 functional::spawnEnemies(enemies_Arr& enemies) {
     time_t now = time(NULL);
-    time_t* lastSpawn = &stats::enemy::lastSpawnTime;
+    static time_t lastSpawn;
 
-    sf::Texture const* enemyTexture = &settings::textures::enemyTexture;
-    if (difftime(now, *lastSpawn) > 1.5) {
-        Enemy newEnemy = Enemy(*enemyTexture);
+    if (difftime(now, lastSpawn) > 1.5) {
+        Enemy newEnemy = Enemy(settings::textures::enemyTexture);
         enemies.push_back(newEnemy);
-        *lastSpawn = now;
+        lastSpawn = now;
     }
 }
 
@@ -132,7 +133,7 @@ functional::updateLives(sf::Text& lives) {
 }
 
 void
-functional::checkCollisions(Ship& ship, enemies_Arr& enemies, bullet_Arr& bullets) {
+functional::checkCollisions(Ship& ship, enemies_Arr& enemies, bullet_Arr& bullets, sf::Text& lives) {
     for (enemies_Arr::size_type i = 0; i < enemies.size(); ++i) {
         for (bullet_Arr::size_type j = 0; j < bullets.size(); ++j) {
             if (bullets[ j ].getBounds().intersects(enemies[ i ].getBounds())) {
@@ -145,6 +146,11 @@ functional::checkCollisions(Ship& ship, enemies_Arr& enemies, bullet_Arr& bullet
         if (ship.getBounds().intersects(enemies[ i ].getBounds())) {
             stats::game::lives--;
             ship.setPosition(500, 600);
+            if (stats::game::lives < 1) {
+                lives.setString("Game Over");
+                lives.setPosition(settings::window::WIDTH - 150, 0);
+                stats::game::isActive = false;
+            }
         }
     }
 }

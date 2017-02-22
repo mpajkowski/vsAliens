@@ -50,7 +50,8 @@ int main() {
     lives.setFont(font);
     lives.setCharacterSize(24);
     lives.setFillColor(sf::Color::Black);
-    lives.setPosition(settings::window::WIDTH - 100, 0);
+    lives.setPosition(settings::window::WIDTH - 300, 0);
+    lives.setString("Press SPACE to start");
 
     float deltaTime = 0;
 
@@ -59,15 +60,17 @@ int main() {
     /////////////////////////////////////////////////
     // Game mainloop
     while (window.isOpen()) {
+        functional::handleEvents(event, window, ship, bullets, lives, clock, deltaTime);
+        functional::checkCollisions(ship, enemies, bullets, lives);
+
         if (stats::game::isActive) {
-            functional::handleEvents(event, window, ship, bullets, clock, deltaTime);
-            functional::checkCollisions(ship, enemies, bullets);
             ship.updatePos(deltaTime);
             functional::bulletsUpdate(bullets, deltaTime);
             functional::enemiesUpdate(enemies, deltaTime);
             functional::updateScore(score);
             functional::updateLives(lives);
         }
+
         deltaTime = clock.restart().asSeconds();
 
         functional::drawScreen(window, ship, enemies, bullets, score, lives);

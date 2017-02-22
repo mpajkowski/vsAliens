@@ -6,7 +6,8 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 set(SOURCE_FILES
         src/main.cpp src/Character.cpp src/Ship.cpp
         src/Bullet.cpp src/Enemy.cpp
-        src/Enemy.cpp src/functional.cpp include/settings.h include/stats.h src/settings.cpp src/Button.cpp include/Button.h)
+        src/Enemy.cpp src/functional.cpp
+        src/settings.cpp src/stats.cpp)
 
 add_executable(vsAliens ${SOURCE_FILES})
 

@@ -2,7 +2,7 @@
 
 namespace stats {
     namespace game {
-        bool isActive = true;
+        bool isActive = false;
         int score = 0;
         int lives = 1;
     }
