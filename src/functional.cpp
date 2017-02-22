@@ -70,6 +70,7 @@ functional::gameOver(sf::Text& lives) {
     lives.setString("Game Over");
     lives.setPosition(settings::window::WIDTH - 150, 0);
     stats::game::score = 0;
+    stats::game::lives = 1;
     stats::game::isActive = false;
 }
 
@@ -187,11 +188,14 @@ functional::checkCollisions(Ship& ship, enemies_Arr& enemies, bullet_Arr& bullet
         if (ship.getBounds().intersects(bonuses[ i ].getBounds())) {
             switch (bonuses[ i ].type) {
                 case Bonus::super_bullet :
+                    stats::game::score += (enemies.size() * 3);
+                    enemies.clear();
                     break;
                 case Bonus::extra_life :
                     ++stats::game::lives;
                     break;
                 case Bonus::faster_bullet :
+                    stats::bullet::speed *= 1.1;
                     break;
                 default :
                     break;

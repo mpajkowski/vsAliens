@@ -8,6 +8,7 @@ Bonus::Bonus(float x, float y, Type type)
     sprite.setTexture(texture);
     sprite.setOrigin(2.5, 2.5);
 
+    this->type = type;
     switch (type) {
         case extra_life :
             sprite.setColor(sf::Color::Blue);

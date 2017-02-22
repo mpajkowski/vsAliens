@@ -4,6 +4,7 @@
 
 #include "../include/shared.h"
 #include "../include/Bullet.h"
+#include "../include/stats.h"
 
 Bullet::Bullet(Ship& ship)
 {
@@ -32,7 +33,7 @@ Bullet::getPos()
 
 void
 Bullet::updateBullet(float& deltaTime) {
-    sprite.move(0, -500 * deltaTime);
+    sprite.move(0, -stats::bullet::speed * deltaTime);
 }
 
 sf::Sprite

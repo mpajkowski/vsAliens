@@ -26,4 +26,8 @@ namespace settings {
     namespace fonts {
         sf::Font font;
     }
+
+    namespace bullet {
+        double speed = 500;
+        }
 }
