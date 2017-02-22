@@ -8,6 +8,7 @@
 #include "../include/Ship.h"
 #include "../include/Enemy.h"
 #include "../include/Bullet.h"
+#include "../include/Bonus.h"
 
 namespace functional {
     // vsAliens functional stuff
@@ -24,7 +25,8 @@ namespace functional {
     // draw all sf::Drawables
     void
     drawScreen(sf::RenderWindow& window, Ship& ship, enemies_Arr& enemies,
-               bullet_Arr& bullets, sf::Text& score, sf::Text& lives);
+               bullet_Arr& bullets, bonuses_Arr& bonuses,
+               sf::Text& score, sf::Text& lives);
 
     /////////////////////////////////////////////////////////////////////
     // game over
@@ -47,6 +49,11 @@ namespace functional {
     spawnEnemies(enemies_Arr& enemies);
 
     /////////////////////////////////////////////////////////////////////
+    // spawning bonuses
+    void
+    spawnBonuses(bonuses_Arr& bonuses);
+
+    /////////////////////////////////////////////////////////////////////
     // updating enemies' pos; handling random movement
     void
     enemiesUpdate(enemies_Arr& enemies, float& deltaTime);
@@ -65,5 +72,5 @@ namespace functional {
     // handling objects' collisions
     void
     checkCollisions(Ship& ship, enemies_Arr& enemies, bullet_Arr& bullets,
-                    sf::Text& lives);
+                    bonuses_Arr& bonuses, sf::Text& lives);
 }

@@ -3,7 +3,7 @@
 //
 
 #pragma once
-
+#include "shared.h"
 #include <ctime>
 
 namespace stats {
@@ -13,7 +13,7 @@ namespace stats {
         extern int lives;
     }
     namespace enemy {
-        extern time_t lastSpawnTime;
-        extern int enemyCounter_test;
+        extern sf::Vector2f lastPos;
+        extern int fragCounter;
     }
 }

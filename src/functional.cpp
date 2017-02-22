@@ -10,6 +10,7 @@
 #include "../include/Bullet.h"
 #include "../include/functional.h"
 #include "../include/stats.h"
+#include "../include/Bonus.h"
 
 void
 functional::handleEvents(sf::Event& event, sf::RenderWindow& window,
@@ -73,7 +74,8 @@ functional::gameOver(sf::Text& lives) {
 
 void
 functional::drawScreen(sf::RenderWindow& window, Ship& ship, enemies_Arr& enemies,
-                       bullet_Arr& bullets, sf::Text& score, sf::Text& lives) {
+                       bullet_Arr& bullets, bonuses_Arr& bonuses,
+                       sf::Text& score, sf::Text& lives) {
     window.clear(sf::Color::White);
     window.draw(ship);
 
@@ -83,6 +85,10 @@ functional::drawScreen(sf::RenderWindow& window, Ship& ship, enemies_Arr& enemie
 
     for (bullet_Arr::size_type i = 0; i < bullets.size(); ++i) {
         window.draw(bullets[ i ]);
+    }
+
+    for (bonuses_Arr::size_type i = 0; i < bonuses.size(); ++i) {
+        window.draw(bonuses[ i ]);
     }
 
     window.draw(score);
@@ -121,6 +127,16 @@ functional::spawnEnemies(enemies_Arr& enemies) {
 }
 
 void
+functional::spawnBonuses(bonuses_Arr& bonuses) {
+    if (stats::enemy::fragCounter == 5) {
+        Bonus newBonus(stats::enemy::lastPos.x,
+                       stats::enemy::lastPos.y);
+        bonuses.push_back(newBonus);
+        stats::enemy::fragCounter = 0;
+    }
+}
+
+void
 functional::enemiesUpdate(enemies_Arr& enemies, float& deltaTime) {
     spawnEnemies(enemies);
 
@@ -143,11 +159,14 @@ functional::updateLives(sf::Text& lives) {
 }
 
 void
-functional::checkCollisions(Ship& ship, enemies_Arr& enemies, bullet_Arr& bullets, sf::Text& lives) {
+functional::checkCollisions(Ship& ship, enemies_Arr& enemies, bullet_Arr& bullets,
+                            bonuses_Arr& bonuses, sf::Text& lives) {
     for (enemies_Arr::size_type i = 0; i < enemies.size(); ++i) {
         for (bullet_Arr::size_type j = 0; j < bullets.size(); ++j) {
             if (bullets[ j ].getBounds().intersects(enemies[ i ].getBounds())) {
                 bullets.erase(bullets.begin() + j);
+                stats::enemy::lastPos = enemies[ i ].getPosition();
+                ++stats::enemy::fragCounter;
                 enemies.erase(enemies.begin() + i);
                 stats::game::score += 5;
             }

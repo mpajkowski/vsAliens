@@ -7,7 +7,7 @@ namespace stats {
         int lives = 1;
     }
     namespace enemy {
-        time_t lastSpawnTime;
-        int enemyCounter_test;
+        sf::Vector2f lastPos;
+        int fragCounter = 0;
     }
 }

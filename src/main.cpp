@@ -36,6 +36,10 @@ int main() {
     bullet_Arr bullets;
 
     /////////////////////////////////////////////////
+    // vector-type container for bonuses
+    bonuses_Arr bonuses;
+
+    /////////////////////////////////////////////////
     // ingame events and clock
     sf::Event event;
     sf::Clock clock;
@@ -70,19 +74,20 @@ int main() {
     // Game mainloop
     while (window.isOpen()) {
         functional::handleEvents(event, window, ship, bullets, lives, clock, deltaTime);
-        functional::checkCollisions(ship, enemies, bullets, lives);
+        functional::checkCollisions(ship, enemies, bullets, bonuses, lives);
 
         if (stats::game::isActive) {
             ship.updatePos(deltaTime);
             functional::bulletsUpdate(bullets, deltaTime);
             functional::enemiesUpdate(enemies, deltaTime);
+            functional::spawnBonuses(bonuses);
             functional::updateScore(score);
             functional::updateLives(lives);
         }
 
         deltaTime = clock.restart().asSeconds();
 
-        functional::drawScreen(window, ship, enemies, bullets, score, lives);
+        functional::drawScreen(window, ship, enemies, bullets, bonuses, score, lives);
     }
 
     return 0;
