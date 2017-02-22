@@ -33,6 +33,8 @@ functional::handleEvents(sf::Event& event, sf::RenderWindow& window,
                     }
                 }
                 break;
+            default:
+                break;
         }
     }
 
@@ -59,6 +61,14 @@ functional::handleEvents(sf::Event& event, sf::RenderWindow& window,
     } else {
         ship.setMoveFlag(Ship::left, false);
     }
+}
+
+void
+functional::gameOver(sf::Text& lives) {
+    lives.setString("Game Over");
+    lives.setPosition(settings::window::WIDTH - 150, 0);
+    stats::game::score = 0;
+    stats::game::isActive = false;
 }
 
 void
@@ -147,9 +157,7 @@ functional::checkCollisions(Ship& ship, enemies_Arr& enemies, bullet_Arr& bullet
             stats::game::lives--;
             ship.setPosition(500, 600);
             if (stats::game::lives < 1) {
-                lives.setString("Game Over");
-                lives.setPosition(settings::window::WIDTH - 150, 0);
-                stats::game::isActive = false;
+                gameOver(lives);
             }
         }
     }

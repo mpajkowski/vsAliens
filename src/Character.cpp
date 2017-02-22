@@ -103,6 +103,8 @@ Character::canMove(Dir dir) {
         case down :
             canMove = (sprite.getPosition().y <= settings::window::HEIGHT - 24) ? true : false;
             break;
+        default:
+            break;
     }
 
     return canMove;
@@ -128,16 +130,18 @@ Character::setMoveFlag(Dir dir, bool isMoving) {
         case down :
             this->isMovingDown = isMoving;
             break;
+        default:
+            break;
     }
 }
 
 float
 Character::matchSpeed() {
     using std::sqrt;
-    int currentSpeed = speed;
+    int currentSpeed = this->speed;
 
     if ((isMovingUp xor isMovingDown) xor (isMovingLeft xor isMovingRight)) {
-        currentSpeed = speed;
+        currentSpeed = this->speed;
     } else {
         currentSpeed = (speed * sqrt(2) / 2);
     }
