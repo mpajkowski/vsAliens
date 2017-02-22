@@ -11,6 +11,7 @@
 #include "../include/functional.h"
 #include "../include/stats.h"
 #include "../include/Bonus.h"
+#include <random>
 
 void
 functional::handleEvents(sf::Event& event, sf::RenderWindow& window,
@@ -130,7 +131,8 @@ void
 functional::spawnBonuses(bonuses_Arr& bonuses) {
     if (stats::enemy::fragCounter == 5) {
         Bonus newBonus(stats::enemy::lastPos.x,
-                       stats::enemy::lastPos.y);
+                       stats::enemy::lastPos.y,
+                       static_cast<Bonus::Type>(rand() % 3));
         bonuses.push_back(newBonus);
         stats::enemy::fragCounter = 0;
     }
@@ -178,6 +180,24 @@ functional::checkCollisions(Ship& ship, enemies_Arr& enemies, bullet_Arr& bullet
             if (stats::game::lives < 1) {
                 gameOver(lives);
             }
+        }
+    }
+
+    for (bonuses_Arr::size_type i = 0; i < bonuses.size(); ++i) {
+        if (ship.getBounds().intersects(bonuses[ i ].getBounds())) {
+            switch (bonuses[ i ].type) {
+                case Bonus::super_bullet :
+                    break;
+                case Bonus::extra_life :
+                    ++stats::game::lives;
+                    break;
+                case Bonus::faster_bullet :
+                    break;
+                default :
+                    break;
+            }
+
+            bonuses.erase(bonuses.begin() + i);
         }
     }
 }

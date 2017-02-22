@@ -5,7 +5,13 @@
 
 class Bonus : public sf::Drawable {
 public:
-    Bonus(float x, float y);
+    enum Type {
+        extra_life, super_bullet, faster_bullet
+        };
+
+    Type type;
+
+    Bonus(float x, float y, Type type);
 
     virtual void draw(sf::RenderTarget& target,
                       sf::RenderStates states) const;
