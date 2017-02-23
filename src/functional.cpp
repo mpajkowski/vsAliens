@@ -198,6 +198,7 @@ functional::enemyCollisions(Ship& ship, enemies_Arr& enemies, bullets_Arr& bulle
 
         if (ship.getBounds().intersects(enemies[ i ].getBounds())) {
             stats::game::lives--;
+            stats::bullet::speed = settings::bullet::speed;
             ship.setPosition(500, 600);
             if (stats::game::lives < 1) {
                 gameOver(lives, enemies, bullets, bonuses);
