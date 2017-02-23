@@ -24,10 +24,13 @@ public:
 
     sf::FloatRect getBounds();
 
+    float getSpawnTime();
+
 private:
     sf::Sprite sprite;
     sf::Texture texture;
     sf::Vector2f pos;
+    sf::Clock spawnClock;
 };
 
 typedef std::vector<Bonus> bonuses_Arr;

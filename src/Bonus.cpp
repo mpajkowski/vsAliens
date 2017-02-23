@@ -49,3 +49,9 @@ sf::FloatRect
 Bonus::getBounds() {
     return sprite.getGlobalBounds();
 }
+
+float
+Bonus::getSpawnTime() {
+    float spawnTime = spawnClock.getElapsedTime().asSeconds();
+    return spawnTime;
+}

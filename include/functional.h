@@ -17,7 +17,7 @@ namespace functional {
     // in-game keyboard events
     void
     handleEvents(sf::Event& event, sf::RenderWindow& window,
-                 Ship& ship, bullet_Arr& bullets,
+                 Ship& ship, bullets_Arr& bullets,
                  sf::Text& lives, sf::Clock& clock,
                  float& deltaTime);
 
@@ -25,23 +25,24 @@ namespace functional {
     // draw all sf::Drawables
     void
     drawScreen(sf::RenderWindow& window, Ship& ship, enemies_Arr& enemies,
-               bullet_Arr& bullets, bonuses_Arr& bonuses,
+               bullets_Arr& bullets, bonuses_Arr& bonuses,
                sf::Text& score, sf::Text& lives);
 
     /////////////////////////////////////////////////////////////////////
     // game over
     void
-    gameOver(sf::Text& lives, enemies_Arr& enemies);
+    gameOver(sf::Text& lives, enemies_Arr& enemies, bullets_Arr& bullets,
+            bonuses_Arr& bonuses);
 
     /////////////////////////////////////////////////////////////////////
     // firing bullets
     void
-    fireBullet(Ship& ship, bullet_Arr& bullets);
+    fireBullet(Ship& ship, bullets_Arr& bullets);
 
     /////////////////////////////////////////////////////////////////////
     // updating bullets' positions
     void
-    bulletsUpdate(bullet_Arr& bullets, float& deltaTime);
+    bulletsUpdate(bullets_Arr& bullets, float& deltaTime);
 
     /////////////////////////////////////////////////////////////////////
     // spawning enemies in given amount of time
@@ -52,6 +53,11 @@ namespace functional {
     // spawning bonuses
     void
     spawnBonuses(bonuses_Arr& bonuses);
+
+    /////////////////////////////////////////////////////////////////////
+    // updating bonuses
+    void
+    updateBonuses(bonuses_Arr& bonuses);
 
     /////////////////////////////////////////////////////////////////////
     // updating enemies' pos; handling random movement
@@ -69,8 +75,19 @@ namespace functional {
     updateLives(sf::Text& lives);
 
     /////////////////////////////////////////////////////////////////////
+    //
+    void
+    enemyCollisions(Ship& ship, enemies_Arr& enemies, bullets_Arr& bullets,
+                    bonuses_Arr& bonuses, sf::Text& lives);
+
+    /////////////////////////////////////////////////////////////////////
+    //
+    void
+    bonusesCollisions(Ship& ship, enemies_Arr& enemies, bonuses_Arr& bonuses);
+
+    /////////////////////////////////////////////////////////////////////
     // handling objects' collisions
     void
-    checkCollisions(Ship& ship, enemies_Arr& enemies, bullet_Arr& bullets,
+    handleCollisions(Ship& ship, enemies_Arr& enemies, bullets_Arr& bullets,
                     bonuses_Arr& bonuses, sf::Text& lives);
 }

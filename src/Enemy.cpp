@@ -10,14 +10,14 @@
 
 Enemy::Enemy(const sf::Texture& texture) :
         Character(texture, 30, 29, settings::enemy::MOVE_SPEED) {
-    this->setPosition((rand() % settings::window::WIDTH - 30) / 2,
+    this->setPosition((rand() % settings::window::WIDTH - 30),
                       (rand() % settings::window::HEIGHT - 30) / 2);
 }
 
 void Enemy::randomMove() {
-    time_t now = time(NULL);
+    float lastMove = movementClock.getElapsedTime().asSeconds();
 
-    if ((difftime(now, lastMove) > 0.2)
+    if (lastMove > 0.5 + rand() % 4
         || (!canMove(right))
         || (!canMove(down))
         || (!canMove(left))
@@ -72,6 +72,6 @@ void Enemy::randomMove() {
             setMoveFlag(Enemy::left, true);
         }
 
-        lastMove = now;
+        movementClock.restart();
     }
-} 
+}

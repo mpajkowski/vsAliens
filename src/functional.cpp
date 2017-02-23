@@ -15,7 +15,7 @@
 
 void
 functional::handleEvents(sf::Event& event, sf::RenderWindow& window,
-                         Ship& ship, bullet_Arr& bullets,
+                         Ship& ship, bullets_Arr& bullets,
                          sf::Text& lives, sf::Clock& clock,
                          float& deltaTime) {
     while (window.pollEvent(event)) {
@@ -34,8 +34,7 @@ functional::handleEvents(sf::Event& event, sf::RenderWindow& window,
                         fireBullet(ship, bullets);
                     }
                 }
-                break;
-            default:
+            default :
                 break;
         }
     }
@@ -66,20 +65,23 @@ functional::handleEvents(sf::Event& event, sf::RenderWindow& window,
 }
 
 void
-functional::gameOver(sf::Text& lives, enemies_Arr& enemies) {
+functional::gameOver(sf::Text& lives, enemies_Arr& enemies, bullets_Arr& bullets,
+            bonuses_Arr& bonuses) {
     lives.setString("Game Over");
     lives.setPosition(settings::window::WIDTH - 150, 0);
     stats::game::score = 0;
     stats::game::lives = 1;
     stats::bullet::speed = settings::bullet::speed;
     enemies.clear();
+    bullets.clear();
+    bonuses.clear();
 
     stats::game::isActive = false;
 }
 
 void
 functional::drawScreen(sf::RenderWindow& window, Ship& ship, enemies_Arr& enemies,
-                       bullet_Arr& bullets, bonuses_Arr& bonuses,
+                       bullets_Arr& bullets, bonuses_Arr& bonuses,
                        sf::Text& score, sf::Text& lives) {
     window.clear(sf::Color::White);
     window.draw(ship);
@@ -88,7 +90,7 @@ functional::drawScreen(sf::RenderWindow& window, Ship& ship, enemies_Arr& enemie
         window.draw(enemies[ i ]);
     }
 
-    for (bullet_Arr::size_type i = 0; i < bullets.size(); ++i) {
+    for (bullets_Arr::size_type i = 0; i < bullets.size(); ++i) {
         window.draw(bullets[ i ]);
     }
 
@@ -103,14 +105,14 @@ functional::drawScreen(sf::RenderWindow& window, Ship& ship, enemies_Arr& enemie
 }
 
 void
-functional::fireBullet(Ship& ship, bullet_Arr& bullets) {
+functional::fireBullet(Ship& ship, bullets_Arr& bullets) {
     Bullet newBullet(ship);
     bullets.push_back(newBullet);
 }
 
 void
-functional::bulletsUpdate(bullet_Arr& bullets, float& deltaTime) {
-    for (bullet_Arr::size_type i = 0; i < bullets.size(); ++i) {
+functional::bulletsUpdate(bullets_Arr& bullets, float& deltaTime) {
+    for (bullets_Arr::size_type i = 0; i < bullets.size(); ++i) {
         bullets[ i ].updateBullet(deltaTime);
 
         if (bullets[ i ].getPos().y < 0) {
@@ -121,13 +123,13 @@ functional::bulletsUpdate(bullet_Arr& bullets, float& deltaTime) {
 
 void
 functional::spawnEnemies(enemies_Arr& enemies) {
-    time_t now = time(NULL);
-    static time_t lastSpawn;
+    static sf::Clock spawnClock;
+    float lastSpawnTime = spawnClock.getElapsedTime().asSeconds();
 
-    if (difftime(now, lastSpawn) > 1.5) {
+    if (lastSpawnTime > 0.75) {
         Enemy newEnemy = Enemy(settings::textures::enemyTexture);
         enemies.push_back(newEnemy);
-        lastSpawn = now;
+        spawnClock.restart();
     }
 }
 
@@ -153,6 +155,17 @@ functional::enemiesUpdate(enemies_Arr& enemies, float& deltaTime) {
 }
 
 void
+functional::updateBonuses(bonuses_Arr& bonuses) {
+    spawnBonuses(bonuses);
+
+    for (bonuses_Arr::size_type i = 0; i < bonuses.size(); ++i) {
+        if (bonuses[ i ].getSpawnTime() > 5) {
+            bonuses.erase(bonuses.begin() + i);
+        }
+    }
+}
+
+void
 functional::updateScore(sf::Text& score) {
     std::string msg = "Score: " + std::to_string(stats::game::score);
     score.setString(msg);
@@ -165,10 +178,10 @@ functional::updateLives(sf::Text& lives) {
 }
 
 void
-functional::checkCollisions(Ship& ship, enemies_Arr& enemies, bullet_Arr& bullets,
+functional::enemyCollisions(Ship& ship, enemies_Arr& enemies, bullets_Arr& bullets,
                             bonuses_Arr& bonuses, sf::Text& lives) {
     for (enemies_Arr::size_type i = 0; i < enemies.size(); ++i) {
-        for (bullet_Arr::size_type j = 0; j < bullets.size(); ++j) {
+        for (bullets_Arr::size_type j = 0; j < bullets.size(); ++j) {
             if (bullets[ j ].getBounds().intersects(enemies[ i ].getBounds())) {
                 bullets.erase(bullets.begin() + j);
                 stats::enemy::lastPos = enemies[ i ].getPosition();
@@ -182,29 +195,39 @@ functional::checkCollisions(Ship& ship, enemies_Arr& enemies, bullet_Arr& bullet
             stats::game::lives--;
             ship.setPosition(500, 600);
             if (stats::game::lives < 1) {
-                gameOver(lives, enemies);
+                gameOver(lives, enemies, bullets, bonuses);
             }
         }
     }
+}
 
+void
+functional::bonusesCollisions(Ship& ship, enemies_Arr& enemies, bonuses_Arr& bonuses) {
     for (bonuses_Arr::size_type i = 0; i < bonuses.size(); ++i) {
         if (ship.getBounds().intersects(bonuses[ i ].getBounds())) {
             switch (bonuses[ i ].type) {
                 case Bonus::super_bullet :
                     stats::game::score += (enemies.size() * 3);
+                    stats::enemy::fragCounter += enemies.size();
                     enemies.clear();
                     break;
                 case Bonus::extra_life :
                     ++stats::game::lives;
                     break;
                 case Bonus::faster_bullet :
-                    stats::bullet::speed *= 3;
+                    stats::bullet::speed *= 1.15;
                     break;
                 default :
                     break;
             }
-
             bonuses.erase(bonuses.begin() + i);
         }
     }
+}
+
+void
+functional::handleCollisions(Ship& ship, enemies_Arr& enemies, bullets_Arr& bullets,
+                            bonuses_Arr& bonuses, sf::Text& lives) {
+    enemyCollisions(ship, enemies, bullets, bonuses, lives);
+    bonusesCollisions(ship, enemies, bonuses);
 }

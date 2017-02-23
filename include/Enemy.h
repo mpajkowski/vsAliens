@@ -17,7 +17,7 @@ public:
     void
     randomMove();
 private:
-    time_t lastMove = time(NULL);
+    sf::Clock movementClock;
     bool holdMove = false;
     bool wantMoveLeft = false;
     bool wantMoveRight = false;

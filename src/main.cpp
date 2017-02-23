@@ -33,7 +33,7 @@ int main() {
 
     /////////////////////////////////////////////////
     // vector-type container for visible bullets fired by player
-    bullet_Arr bullets;
+    bullets_Arr bullets;
 
     /////////////////////////////////////////////////
     // vector-type container for bonuses
@@ -74,13 +74,13 @@ int main() {
     // Game mainloop
     while (window.isOpen()) {
         functional::handleEvents(event, window, ship, bullets, lives, clock, deltaTime);
-        functional::checkCollisions(ship, enemies, bullets, bonuses, lives);
+        functional::handleCollisions(ship, enemies, bullets, bonuses, lives);
 
         if (stats::game::isActive) {
             ship.updatePos(deltaTime);
             functional::bulletsUpdate(bullets, deltaTime);
             functional::enemiesUpdate(enemies, deltaTime);
-            functional::spawnBonuses(bonuses);
+            functional::updateBonuses(bonuses);
             functional::updateScore(score);
             functional::updateLives(lives);
         }

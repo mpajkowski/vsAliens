@@ -28,4 +28,4 @@ private:
     sf::Vector2f pos;
 };
 
-typedef std::vector<Bullet> bullet_Arr;
+typedef std::vector<Bullet> bullets_Arr;
