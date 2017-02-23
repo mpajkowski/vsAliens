@@ -17,7 +17,7 @@ Enemy::Enemy(const sf::Texture& texture) :
 void Enemy::randomMove() {
     float lastMove = movementClock.getElapsedTime().asSeconds();
 
-    if (lastMove > 0.5 + rand() % 4
+    if (lastMove >  0.2 + ((float)rand()/(float)(RAND_MAX/7))
         || (!canMove(right))
         || (!canMove(down))
         || (!canMove(left))

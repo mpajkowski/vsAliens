@@ -22,6 +22,11 @@ namespace functional {
                  float& deltaTime);
 
     /////////////////////////////////////////////////////////////////////
+    //
+    void
+    handleShipMovement(Ship& ship);
+
+    /////////////////////////////////////////////////////////////////////
     // draw all sf::Drawables
     void
     drawScreen(sf::RenderWindow& window, Ship& ship, enemies_Arr& enemies,

@@ -39,7 +39,12 @@ functional::handleEvents(sf::Event& event, sf::RenderWindow& window,
         }
     }
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+    handleShipMovement(ship);
+}
+
+void
+functional::handleShipMovement(Ship& ship) {
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
         ship.setMoveFlag(Ship::up, true);
     } else {
         ship.setMoveFlag(Ship::up, false);
@@ -135,7 +140,7 @@ functional::spawnEnemies(enemies_Arr& enemies) {
 
 void
 functional::spawnBonuses(bonuses_Arr& bonuses) {
-    if (stats::enemy::fragCounter == 5) {
+    if (stats::enemy::fragCounter >= 5) {
         Bonus newBonus(stats::enemy::lastPos.x,
                        stats::enemy::lastPos.y,
                        static_cast<Bonus::Type>(rand() % 3));
