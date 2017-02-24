@@ -44,7 +44,7 @@ bool
 Character::getMoveFlag(Dir dir) {
     using std::endl;
 
-    bool flagValue;
+    bool flagValue = false;
     switch (dir) {
         case left :
             flagValue = isMovingLeft;
@@ -88,7 +88,7 @@ Character::confirmMove() {
 
 bool
 Character::canMove(Dir dir) {
-    bool canMove;
+    bool canMove = false;
 
     switch (dir) {
         case right :
