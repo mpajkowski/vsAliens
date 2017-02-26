@@ -241,7 +241,8 @@ functional::bonusesCollisions(Ship& ship, enemies_Arr& enemies, bonuses_Arr& bon
                     ++stats::game::lives;
                     break;
                 case Bonus::extra_bullet :
-                    stats::bullet::maxBullets += 1;
+                    ++stats::bullet::maxBullets;
+                    ++stats::bullet::bulletsLeft;
                     break;
                 default :
                     break;

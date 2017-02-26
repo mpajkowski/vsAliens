@@ -6,3 +6,5 @@ images/*.xfc
 obj/*
 *.depend
 *.layout
+.idea/*
+cmake-build-debug/*
