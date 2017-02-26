@@ -16,7 +16,7 @@ Bonus::Bonus(float x, float y, Type type)
         case super_bullet :
             sprite.setColor(sf::Color::Green);
             break;
-        case faster_bullet :
+        case extra_bullet :
             sprite.setColor(sf::Color::Red);
             break;
         default :
@@ -32,17 +32,6 @@ void
 Bonus::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
     target.draw(sprite, states);
-}
-
-sf::Vector2f
-Bonus::getPos()
-{
-    return sprite.getPosition();
-}
-
-sf::Sprite
-Bonus::getSprite() {
-    return sprite;
 }
 
 sf::FloatRect

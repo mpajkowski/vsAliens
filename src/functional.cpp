@@ -10,7 +10,7 @@
 #include "../include/Bullet.h"
 #include "../include/functional.h"
 #include "../include/stats.h"
-#include "../include/Bonus.h"
+
 #include <random>
 
 void
@@ -68,7 +68,7 @@ functional::gameOver(sf::Text& lives, enemies_Arr& enemies, bullets_Arr& bullets
 void
 functional::drawScreen(sf::RenderWindow& window, Ship& ship, enemies_Arr& enemies,
                        bullets_Arr& bullets, bonuses_Arr& bonuses,
-                       sf::Text& score, sf::Text& lives) {
+                       sf::Text& score, sf::Text& lives, sf::Text& avBullets) {
     window.clear(sf::Color::White);
     window.draw(ship);
 
@@ -86,15 +86,43 @@ functional::drawScreen(sf::RenderWindow& window, Ship& ship, enemies_Arr& enemie
 
     window.draw(score);
     window.draw(lives);
+    window.draw(avBullets);
 
     window.display();
 }
 
 void
 functional::fireBullet(Ship& ship, bullets_Arr& bullets) {
-    static sf::Clock bulletClock
-    Bullet newBullet(ship);
-    bullets.push_back(newBullet);
+
+    if (canFire()) {
+        Bullet newBullet(ship);
+        bullets.push_back(newBullet);
+        --stats::bullet::bulletsLeft;
+    }
+}
+
+bool
+functional::canFire() {
+    static bool canFire = true;
+    static sf::Clock reloadClock;
+    static bool reloadClockRestarted;
+
+    if (stats::bullet::bulletsLeft == 0) {
+        canFire = false;
+
+        if (!reloadClockRestarted) {
+            reloadClock.restart();
+            reloadClockRestarted = true;
+        }
+
+        if (reloadClock.getElapsedTime().asSeconds() >= 1) {
+            reloadClockRestarted = false;
+            stats::bullet::bulletsLeft = stats::bullet::maxBullets;
+            canFire = true;
+        }
+    }
+
+    return canFire;
 }
 
 void
@@ -113,7 +141,7 @@ functional::spawnEnemies(enemies_Arr& enemies) {
     static sf::Clock spawnClock;
     float lastSpawnTime = spawnClock.getElapsedTime().asSeconds();
 
-    if (lastSpawnTime > 0.4) {
+    if (lastSpawnTime > 1.2) {
         Enemy newEnemy = Enemy(settings::textures::enemyTexture);
         enemies.push_back(newEnemy);
         spawnClock.restart();
@@ -165,6 +193,17 @@ functional::updateLives(sf::Text& lives) {
 }
 
 void
+functional::updateAvBullets(sf::Text& avBullets) {
+    std::string msg;
+
+    for (int i = 0; i < stats::bullet::bulletsLeft; ++i) {
+        msg += "* ";
+    }
+
+    avBullets.setString(msg);
+}
+
+void
 functional::enemyCollisions(Ship& ship, enemies_Arr& enemies, bullets_Arr& bullets,
                             bonuses_Arr& bonuses, sf::Text& lives) {
     for (enemies_Arr::size_type i = 0; i < enemies.size(); ++i) {
@@ -180,7 +219,6 @@ functional::enemyCollisions(Ship& ship, enemies_Arr& enemies, bullets_Arr& bulle
 
         if (ship.getBounds().intersects(enemies[ i ].getBounds())) {
             stats::game::lives--;
-            stats::bullet::speed = settings::bullet::speed;
             ship.setPosition(500, 600);
             if (stats::game::lives < 1) {
                 gameOver(lives, enemies, bullets, bonuses);
@@ -202,8 +240,8 @@ functional::bonusesCollisions(Ship& ship, enemies_Arr& enemies, bonuses_Arr& bon
                 case Bonus::extra_life :
                     ++stats::game::lives;
                     break;
-                case Bonus::faster_bullet :
-                    stats::bullet::speed *= 1.15;
+                case Bonus::extra_bullet :
+                    stats::bullet::maxBullets += 1;
                     break;
                 default :
                     break;

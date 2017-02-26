@@ -6,7 +6,7 @@
 class Bonus : public sf::Drawable {
 public:
     enum Type {
-        extra_life, super_bullet, faster_bullet
+        extra_life, super_bullet, extra_bullet
         };
 
     Type type;

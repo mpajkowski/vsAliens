@@ -12,7 +12,7 @@
 int main() {
     /////////////////////////////////////////////////
     // random seed
-    srand(time(NULL));
+    srand((unsigned int) time(0));
 
     /////////////////////////////////////////////////
     // Game window
@@ -64,6 +64,13 @@ int main() {
     lives.setFillColor(sf::Color::Black);
     lives.setPosition(settings::window::WIDTH - 300, 0);
     lives.setString("Press SPACE to start");
+    /////////////////////////////////////////////////
+    // avBullets text field
+    sf::Text avBullets;
+    avBullets.setFont(font);
+    avBullets.setCharacterSize(24);
+    avBullets.setFillColor(sf::Color::Black);
+    avBullets.setPosition(settings::window::WIDTH / 2 - 50, 0);
 
     /////////////////////////////////////////////////
     float deltaTime = 0;
@@ -82,11 +89,13 @@ int main() {
             functional::updateBonuses(bonuses);
             functional::updateScore(score);
             functional::updateLives(lives);
+            functional::updateAvBullets(avBullets);
+            functional::canFire();
         }
 
         deltaTime = clock.restart().asSeconds();
 
-        functional::drawScreen(window, ship, enemies, bullets, bonuses, score, lives);
+        functional::drawScreen(window, ship, enemies, bullets, bonuses, score, lives, avBullets);
     }
 
     return 0;

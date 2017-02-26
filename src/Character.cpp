@@ -92,16 +92,16 @@ Character::canMove(Dir dir) {
 
     switch (dir) {
         case right :
-            canMove = (sprite.getPosition().x <= settings::window::WIDTH - 30) ? true : false;
+            canMove = sprite.getPosition().x <= settings::window::WIDTH - 30;
             break;
         case left :
-            canMove = (sprite.getGlobalBounds().left >= 0) ? true : false;
+            canMove = sprite.getGlobalBounds().left >= 0;
             break;
         case up :
-            canMove = (sprite.getGlobalBounds().top >= 0) ? true : false;
+            canMove = sprite.getGlobalBounds().top >= 0;
             break;
         case down :
-            canMove = (sprite.getPosition().y <= settings::window::HEIGHT - 24) ? true : false;
+            canMove = sprite.getPosition().y <= settings::window::HEIGHT - 24;
             break;
         default:
             break;
@@ -138,7 +138,7 @@ Character::setMoveFlag(Dir dir, bool isMoving) {
 float
 Character::matchSpeed() {
     using std::sqrt;
-    float currentSpeed = this->speed;
+    float currentSpeed;
 
     if ((isMovingUp xor isMovingDown) xor (isMovingLeft xor isMovingRight)) {
         currentSpeed = this->speed;
@@ -152,11 +152,6 @@ Character::matchSpeed() {
 void
 Character::setPosition(float x, float y) {
     sprite.setPosition(x, y);
-}
-
-sf::Sprite
-Character::getSprite() {
-    return sprite;
 }
 
 sf::FloatRect

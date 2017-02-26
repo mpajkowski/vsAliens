@@ -8,8 +8,8 @@
 
 namespace settings {
     namespace window {
-        extern const int WIDTH;
-        extern const int HEIGHT;
+        extern const unsigned int WIDTH;
+        extern const unsigned int HEIGHT;
     }
 
     namespace ship {
@@ -25,11 +25,8 @@ namespace settings {
         extern sf::Texture enemyTexture;
     }
 
-    namespace fonts {
-        extern sf::Font font;
-    }
-
     namespace bullet {
         extern double speed;
+        extern int maxBullets;
         }
 }

@@ -6,8 +6,8 @@
 
 namespace settings {
     namespace window {
-        const int WIDTH = 1000;
-        const int HEIGHT = 700;
+        const unsigned int WIDTH = 1000;
+        const unsigned int HEIGHT = 700;
     }
 
     namespace ship {
@@ -23,11 +23,8 @@ namespace settings {
         sf::Texture enemyTexture;
     }
 
-    namespace fonts {
-        sf::Font font;
-    }
-
     namespace bullet {
         double speed = 500;
+        int maxBullets = 4;
         }
 }

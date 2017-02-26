@@ -31,7 +31,7 @@ namespace functional {
     void
     drawScreen(sf::RenderWindow& window, Ship& ship, enemies_Arr& enemies,
                bullets_Arr& bullets, bonuses_Arr& bonuses,
-               sf::Text& score, sf::Text& lives);
+               sf::Text& score, sf::Text& lives, sf::Text& avBullets);
 
     /////////////////////////////////////////////////////////////////////
     // game over
@@ -43,6 +43,11 @@ namespace functional {
     // firing bullets
     void
     fireBullet(Ship& ship, bullets_Arr& bullets);
+
+    /////////////////////////////////////////////////////////////////////
+    //
+    bool
+    canFire();
 
     /////////////////////////////////////////////////////////////////////
     // updating bullets' positions
@@ -78,6 +83,11 @@ namespace functional {
     // updating score text field
     void
     updateLives(sf::Text& lives);
+
+    /////////////////////////////////////////////////////////////////////
+    // updating avBullets text field
+    void
+    updateAvBullets(sf::Text& avBullets);
 
     /////////////////////////////////////////////////////////////////////
     //
