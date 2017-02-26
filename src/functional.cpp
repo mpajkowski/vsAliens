@@ -1,4 +1,4 @@
-/**
+/*
  * vsAliens
  * functional.cpp
  *
@@ -44,29 +44,10 @@ functional::handleEvents(sf::Event& event, sf::RenderWindow& window,
 
 void
 functional::handleShipMovement(Ship& ship) {
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-        ship.setMoveFlag(Ship::up, true);
-    } else {
-        ship.setMoveFlag(Ship::up, false);
-    }
-
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-        ship.setMoveFlag(Ship::down, true);
-    } else {
-        ship.setMoveFlag(Ship::down, false);
-    }
-
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-        ship.setMoveFlag(Ship::right, true);
-    } else {
-        ship.setMoveFlag(Ship::right, false);
-    }
-
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-        ship.setMoveFlag(Ship::left, true);
-    } else {
-        ship.setMoveFlag(Ship::left, false);
-    }
+    ship.setMoveFlag(Ship::up, sf::Keyboard::isKeyPressed(sf::Keyboard::W));
+    ship.setMoveFlag(Ship::down, sf::Keyboard::isKeyPressed(sf::Keyboard::S));
+    ship.setMoveFlag(Ship::right, sf::Keyboard::isKeyPressed(sf::Keyboard::D));
+    ship.setMoveFlag(Ship::left, sf::Keyboard::isKeyPressed(sf::Keyboard::A));
 }
 
 void
@@ -111,6 +92,7 @@ functional::drawScreen(sf::RenderWindow& window, Ship& ship, enemies_Arr& enemie
 
 void
 functional::fireBullet(Ship& ship, bullets_Arr& bullets) {
+    static sf::Clock bulletClock
     Bullet newBullet(ship);
     bullets.push_back(newBullet);
 }
@@ -131,7 +113,7 @@ functional::spawnEnemies(enemies_Arr& enemies) {
     static sf::Clock spawnClock;
     float lastSpawnTime = spawnClock.getElapsedTime().asSeconds();
 
-    if (lastSpawnTime > 0.75) {
+    if (lastSpawnTime > 0.4) {
         Enemy newEnemy = Enemy(settings::textures::enemyTexture);
         enemies.push_back(newEnemy);
         spawnClock.restart();
@@ -150,12 +132,12 @@ functional::spawnBonuses(bonuses_Arr& bonuses) {
 }
 
 void
-functional::enemiesUpdate(enemies_Arr& enemies, float& deltaTime) {
+functional::enemiesUpdate(Ship& ship, enemies_Arr& enemies, float& deltaTime) {
     spawnEnemies(enemies);
 
     for (enemies_Arr::size_type i = 0; i < enemies.size(); ++i) {
-        enemies[i].randomMove();
-        enemies[i].updatePos(deltaTime);
+        enemies[ i ].randomMove(ship);
+        enemies[ i ].updatePos(deltaTime);
     }
 }
 
@@ -213,7 +195,7 @@ functional::bonusesCollisions(Ship& ship, enemies_Arr& enemies, bonuses_Arr& bon
         if (ship.getBounds().intersects(bonuses[ i ].getBounds())) {
             switch (bonuses[ i ].type) {
                 case Bonus::super_bullet :
-                    stats::game::score += (enemies.size() * 3);
+                    stats::game::score += (enemies.size() & 3);
                     stats::enemy::fragCounter += enemies.size();
                     enemies.clear();
                     break;

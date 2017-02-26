@@ -9,13 +9,14 @@
 
 #include "../include/shared.h"
 #include "../include/Character.h"
+#include "../include/Ship.h"
 
 class Enemy : public Character {
 public:
     Enemy(const sf::Texture& texture);
 
     void
-    randomMove();
+    randomMove(Ship& ship);
 private:
     sf::Clock movementClock;
     bool holdMove = false;

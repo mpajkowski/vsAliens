@@ -8,16 +8,18 @@
 #include <random>
 #include "../include/Enemy.h"
 
+
 Enemy::Enemy(const sf::Texture& texture) :
         Character(texture, 30, 29, settings::enemy::MOVE_SPEED) {
     this->setPosition((rand() % settings::window::WIDTH - 30),
                       (rand() % settings::window::HEIGHT - 30) / 2);
 }
 
-void Enemy::randomMove() {
+void Enemy::randomMove(Ship& ship) {
+
     float lastMove = movementClock.getElapsedTime().asSeconds();
 
-    if (lastMove >  0.2 + ((float)rand()/(float)(RAND_MAX/7))
+    if (lastMove > 0.4 + ((float) rand() / (float) (RAND_MAX / 3))
         || (!canMove(right))
         || (!canMove(down))
         || (!canMove(left))
@@ -35,25 +37,25 @@ void Enemy::randomMove() {
 
         while (!((wantMoveLeft xor wantMoveRight) || (wantMoveUp xor wantMoveDown))) {
             if (canMove(right)) {
-                wantMoveRight = rand() % 2;
+                wantMoveRight = this->getPosition().x > ship.getPosition().x ? false : bool(rand() % 2);
             } else {
                 wantMoveRight = false;
             }
 
             if (canMove(left)) {
-                wantMoveLeft = rand() % 2;
+                wantMoveLeft = this->getPosition().x < ship.getPosition().x ? false : bool(rand() % 2);
             } else {
                 wantMoveLeft = false;
             }
 
             if (canMove(up)) {
-                wantMoveUp = rand() % 2;
+                wantMoveUp = this->getPosition().y < ship.getPosition().y ? false : bool(rand() % 2);
             } else {
                 wantMoveUp = false;
             }
 
             if (canMove(down)) {
-                wantMoveDown = rand() % 2;
+                wantMoveDown = this->getPosition().y > ship.getPosition().y ? false : bool(rand() % 2);
             } else {
                 wantMoveDown = false;
             }

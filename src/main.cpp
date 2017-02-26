@@ -70,7 +70,6 @@ int main() {
 
     window.setKeyRepeatEnabled(false);
 
-    /////////////////////////////////////////////////
     // Game mainloop
     while (window.isOpen()) {
         functional::handleEvents(event, window, ship, bullets, lives, clock, deltaTime);
@@ -79,7 +78,7 @@ int main() {
         if (stats::game::isActive) {
             ship.updatePos(deltaTime);
             functional::bulletsUpdate(bullets, deltaTime);
-            functional::enemiesUpdate(enemies, deltaTime);
+            functional::enemiesUpdate(ship, enemies, deltaTime);
             functional::updateBonuses(bonuses);
             functional::updateScore(score);
             functional::updateLives(lives);

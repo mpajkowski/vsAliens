@@ -7,7 +7,8 @@ set(SOURCE_FILES
         src/main.cpp src/Character.cpp src/Ship.cpp
         src/Bullet.cpp src/Enemy.cpp
         src/Enemy.cpp src/functional.cpp
-        src/settings.cpp src/stats.cpp)
+        src/settings.cpp src/stats.cpp
+        src/Bonus.cpp)
 
 add_executable(vsAliens ${SOURCE_FILES})
 

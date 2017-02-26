@@ -67,7 +67,7 @@ namespace functional {
     /////////////////////////////////////////////////////////////////////
     // updating enemies' pos; handling random movement
     void
-    enemiesUpdate(enemies_Arr& enemies, float& deltaTime);
+    enemiesUpdate(Ship& ship, enemies_Arr& enemies, float& deltaTime);
 
     /////////////////////////////////////////////////////////////////////
     // updating score text field

@@ -138,7 +138,7 @@ Character::setMoveFlag(Dir dir, bool isMoving) {
 float
 Character::matchSpeed() {
     using std::sqrt;
-    int currentSpeed = this->speed;
+    float currentSpeed = this->speed;
 
     if ((isMovingUp xor isMovingDown) xor (isMovingLeft xor isMovingRight)) {
         currentSpeed = this->speed;
