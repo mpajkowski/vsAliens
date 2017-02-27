@@ -34,7 +34,7 @@ namespace functional {
                sf::Text& score, sf::Text& lives, sf::Text& avBullets);
 
     /////////////////////////////////////////////////////////////////////
-    // game over
+    // game over and reset stats
     void
     gameOver(sf::Text& lives, enemies_Arr& enemies, bullets_Arr& bullets,
             bonuses_Arr& bonuses);

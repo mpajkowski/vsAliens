@@ -55,8 +55,11 @@ functional::gameOver(sf::Text& lives, enemies_Arr& enemies, bullets_Arr& bullets
             bonuses_Arr& bonuses) {
     lives.setString("Game Over");
     lives.setPosition(settings::window::WIDTH - 150, 0);
+
+    //reset stats
     stats::game::score = 0;
     stats::game::lives = 1;
+    stats::bullet::maxBullets = settings::bullet::maxBullets;
     stats::bullet::speed = settings::bullet::speed;
     enemies.clear();
     bullets.clear();
@@ -115,7 +118,7 @@ functional::canFire() {
             reloadClockRestarted = true;
         }
 
-        if (reloadClock.getElapsedTime().asSeconds() >= 1) {
+        if (reloadClock.getElapsedTime().asSeconds() >= 3) {
             reloadClockRestarted = false;
             stats::bullet::bulletsLeft = stats::bullet::maxBullets;
             canFire = true;
@@ -141,7 +144,7 @@ functional::spawnEnemies(enemies_Arr& enemies) {
     static sf::Clock spawnClock;
     float lastSpawnTime = spawnClock.getElapsedTime().asSeconds();
 
-    if (lastSpawnTime > 1.2) {
+    if (lastSpawnTime > 1) {
         Enemy newEnemy = Enemy(settings::textures::enemyTexture);
         enemies.push_back(newEnemy);
         spawnClock.restart();
@@ -242,7 +245,7 @@ functional::bonusesCollisions(Ship& ship, enemies_Arr& enemies, bonuses_Arr& bon
                     break;
                 case Bonus::extra_bullet :
                     ++stats::bullet::maxBullets;
-                    ++stats::bullet::bulletsLeft;
+                    //++stats::bullet::bulletsLeft;
                     break;
                 default :
                     break;
