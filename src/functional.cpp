@@ -60,6 +60,7 @@ functional::gameOver(sf::Text& lives, enemies_Arr& enemies, bullets_Arr& bullets
     stats::game::score = 0;
     stats::game::lives = 1;
     stats::bullet::maxBullets = settings::bullet::maxBullets;
+    stats::bullet::bulletsLeft = settings::bullet::maxBullets;
     stats::bullet::speed = settings::bullet::speed;
     enemies.clear();
     bullets.clear();
