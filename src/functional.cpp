@@ -107,7 +107,7 @@ functional::fireBullet(Ship& ship, bullets_Arr& bullets) {
 
 bool
 functional::canFire() {
-    static bool canFire = true;
+    bool canFire = true;
     static sf::Clock reloadClock;
     static bool reloadClockRestarted;
 
@@ -204,6 +204,10 @@ functional::updateAvBullets(sf::Text& avBullets) {
         msg += "* ";
     }
 
+    for (int i = 0; i < stats::bullet::maxBullets - stats::bullet::bulletsLeft; ++i) {
+        msg +=  "- ";
+    }
+
     avBullets.setString(msg);
 }
 
@@ -224,6 +228,7 @@ functional::enemyCollisions(Ship& ship, enemies_Arr& enemies, bullets_Arr& bulle
         if (ship.getBounds().intersects(enemies[ i ].getBounds())) {
             stats::game::lives--;
             ship.setPosition(500, 600);
+            enemies.erase(enemies.begin() + i);
             if (stats::game::lives < 1) {
                 gameOver(lives, enemies, bullets, bonuses);
             }
