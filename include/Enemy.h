@@ -39,7 +39,6 @@ public:
     using Vector::operator[];
     using Vector::push_back;
     using Vector::erase;
-    using Vector constexpr;
 private:
     //
 };
