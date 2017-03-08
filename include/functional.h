@@ -57,7 +57,7 @@ namespace functional {
     /////////////////////////////////////////////////////////////////////
     // spawning enemies in given amount of time
     void
-    spawnEnemies(enemies_Arr& enemies);
+    spawnEnemies(enemies_Arr& enemies, Ship& ship);
 
     /////////////////////////////////////////////////////////////////////
     // spawning bonuses

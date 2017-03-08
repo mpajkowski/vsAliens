@@ -19,6 +19,7 @@ namespace settings {
     }
 
     namespace textures {
+        sf::Font font;
         sf::Texture shipTexture;
         sf::Texture enemyTexture;
     }
@@ -26,5 +27,5 @@ namespace settings {
     namespace bullet {
         double speed = 500;
         int maxBullets = 4;
-        }
+    }
 }

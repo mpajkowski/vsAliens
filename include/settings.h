@@ -21,6 +21,7 @@ namespace settings {
     }
 
     namespace textures {
+        extern sf::Font font;
         extern sf::Texture shipTexture;
         extern sf::Texture enemyTexture;
     }

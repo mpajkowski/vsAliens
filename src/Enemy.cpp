@@ -9,10 +9,20 @@
 #include "../include/Enemy.h"
 
 
-Enemy::Enemy(const sf::Texture& texture) :
+Enemy::Enemy(const sf::Texture& texture, Ship& ship) :
         Character(texture, 30, 29, settings::enemy::MOVE_SPEED) {
-    this->setPosition((rand() % settings::window::WIDTH - 30),
-                      (rand() % settings::window::HEIGHT - 30) / 2);
+    sf::Vector2i pos;
+
+    do {
+        pos.x = rand() % settings::window::WIDTH - 30;
+        pos.y = (rand() % settings::window::HEIGHT - 30) / 2;
+    }
+    while (ship.getPosition().x - pos.x <= 150 &&
+           pos.x - ship.getPosition().x <= 150 &&
+           ship.getPosition().y - pos.y <= 150 &&
+           pos.y - ship.getPosition().y <= 150);
+
+    this->setPosition(pos.x, pos.y);
 }
 
 void Enemy::randomMove(Ship& ship) {

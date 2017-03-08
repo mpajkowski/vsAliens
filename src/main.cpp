@@ -9,6 +9,7 @@
 #include "../include/functional.h"
 #include "../include/stats.h"
 
+
 int main() {
     /////////////////////////////////////////////////
     // random seed

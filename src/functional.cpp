@@ -62,6 +62,7 @@ functional::gameOver(sf::Text& lives, enemies_Arr& enemies, bullets_Arr& bullets
     stats::bullet::maxBullets = settings::bullet::maxBullets;
     stats::bullet::bulletsLeft = settings::bullet::maxBullets;
     stats::bullet::speed = settings::bullet::speed;
+    stats::enemy::fragCounter = 0;
     enemies.clear();
     bullets.clear();
     bonuses.clear();
@@ -141,12 +142,12 @@ functional::bulletsUpdate(bullets_Arr& bullets, float& deltaTime) {
 }
 
 void
-functional::spawnEnemies(enemies_Arr& enemies) {
+functional::spawnEnemies(enemies_Arr& enemies, Ship& ship) {
     static sf::Clock spawnClock;
     float lastSpawnTime = spawnClock.getElapsedTime().asSeconds();
 
     if (lastSpawnTime > 1) {
-        Enemy newEnemy = Enemy(settings::textures::enemyTexture);
+        Enemy newEnemy = Enemy(settings::textures::enemyTexture, ship);
         enemies.push_back(newEnemy);
         spawnClock.restart();
     }
@@ -165,7 +166,7 @@ functional::spawnBonuses(bonuses_Arr& bonuses) {
 
 void
 functional::enemiesUpdate(Ship& ship, enemies_Arr& enemies, float& deltaTime) {
-    spawnEnemies(enemies);
+    spawnEnemies(enemies, ship);
 
     for (enemies_Arr::size_type i = 0; i < enemies.size(); ++i) {
         enemies[ i ].randomMove(ship);
