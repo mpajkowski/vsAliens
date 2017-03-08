@@ -33,4 +33,4 @@ private:
     sf::Clock spawnClock;
 };
 
-typedef std::vector<Bonus> bonuses_Arr;
+class bonuses_Arr : public ObjectContainer<Bonus> {};

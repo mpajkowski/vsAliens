@@ -27,18 +27,4 @@ private:
 };
 
 //typedef std::vector<Enemy> enemies_Arr;
-
-class enemies_Arr : private std::vector<Enemy> {
-public:
-    typedef std::vector<Enemy> Vector;
-    using Vector::clear;
-    using Vector::at;
-    using Vector::begin;
-    using Vector::size_type;
-    using Vector::size;
-    using Vector::operator[];
-    using Vector::push_back;
-    using Vector::erase;
-private:
-    //
-};
+class enemies_Arr : public ObjectContainer<Enemy> {};
