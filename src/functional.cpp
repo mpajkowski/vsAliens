@@ -9,7 +9,6 @@
 #include "../include/Enemy.h"
 #include "../include/Bullet.h"
 #include "../include/functional.h"
-#include "../include/stats.h"
 
 #include <random>
 
@@ -17,7 +16,7 @@ void
 functional::handleEvents(sf::Event& event, sf::RenderWindow& window,
                          Ship& ship, bullets_Arr& bullets,
                          sf::Text& lives, sf::Clock& clock,
-                         CanFire& cf, float& deltaTime) {
+                        float& deltaTime) {
     while (window.pollEvent(event)) {
         switch (event.type) {
             case sf::Event::Closed :
@@ -31,7 +30,7 @@ functional::handleEvents(sf::Event& event, sf::RenderWindow& window,
                         stats::game::isActive = true;
                         lives.setPosition(settings::window::WIDTH - 100, 0);
                     } else {
-                        fireBullet(ship, bullets, cf);
+                        ship.fireBullet(bullets);
                     }
                 }
             default :
@@ -77,15 +76,15 @@ functional::drawScreen(sf::RenderWindow& window, Ship& ship, enemies_Arr& enemie
     window.clear(sf::Color::White);
     window.draw(ship);
 
-    for (enemies_Arr::size_type i = 0; i < enemies.size(); ++i) {
+    for (unsigned int i = 0; i < enemies.size(); ++i) {
         window.draw(enemies[ i ]);
     }
 
-    for (bullets_Arr::size_type i = 0; i < bullets.size(); ++i) {
+    for (unsigned int i = 0; i < bullets.size(); ++i) {
         window.draw(bullets[ i ]);
     }
 
-    for (bonuses_Arr::size_type i = 0; i < bonuses.size(); ++i) {
+    for (unsigned int i = 0; i < bonuses.size(); ++i) {
         window.draw(bonuses[ i ]);
     }
 
@@ -94,39 +93,6 @@ functional::drawScreen(sf::RenderWindow& window, Ship& ship, enemies_Arr& enemie
     window.draw(avBullets);
 
     window.display();
-}
-
-void
-functional::fireBullet(Ship& ship, bullets_Arr& bullets, CanFire& cf) {
-
-    if (cf.getStatus()) {
-        Bullet newBullet(ship);
-        bullets.push_back(newBullet);
-        --stats::bullet::bulletsLeft;
-    }
-}
-
-void
-functional::bulletsUpdate(bullets_Arr& bullets, float& deltaTime) {
-    for (bullets_Arr::size_type i = 0; i < bullets.size(); ++i) {
-        bullets[ i ].updateBullet(deltaTime);
-
-        if (bullets[ i ].getPos().y < 0) {
-            bullets.erase(bullets.begin() + i);
-        }
-    }
-}
-
-void
-functional::spawnEnemies(enemies_Arr& enemies, Ship& ship) {
-    static sf::Clock spawnClock;
-    float lastSpawnTime = spawnClock.getElapsedTime().asSeconds();
-
-    if (lastSpawnTime > 1) {
-        Enemy newEnemy = Enemy(settings::textures::enemyTexture, ship);
-        enemies.push_back(newEnemy);
-        spawnClock.restart();
-    }
 }
 
 void
@@ -141,20 +107,10 @@ functional::spawnBonuses(bonuses_Arr& bonuses) {
 }
 
 void
-functional::enemiesUpdate(Ship& ship, enemies_Arr& enemies, float& deltaTime) {
-    spawnEnemies(enemies, ship);
-
-    for (enemies_Arr::size_type i = 0; i < enemies.size(); ++i) {
-        enemies[ i ].randomMove(ship);
-        enemies[ i ].updatePos(deltaTime);
-    }
-}
-
-void
 functional::updateBonuses(bonuses_Arr& bonuses) {
     spawnBonuses(bonuses);
 
-    for (bonuses_Arr::size_type i = 0; i < bonuses.size(); ++i) {
+    for (unsigned int i = 0; i < bonuses.size(); ++i) {
         if (bonuses[ i ].getSpawnTime() > 5) {
             bonuses.erase(bonuses.begin() + i);
         }
@@ -191,8 +147,8 @@ functional::updateAvBullets(sf::Text& avBullets) {
 void
 functional::enemyCollisions(Ship& ship, enemies_Arr& enemies, bullets_Arr& bullets,
                             bonuses_Arr& bonuses, sf::Text& lives) {
-    for (enemies_Arr::size_type i = 0; i < enemies.size(); ++i) {
-        for (bullets_Arr::size_type j = 0; j < bullets.size(); ++j) {
+    for (unsigned int i = 0; i < enemies.size(); ++i) {
+        for (unsigned int j = 0; j < bullets.size(); ++j) {
             if (bullets[ j ].getBounds().intersects(enemies[ i ].getBounds())) {
                 bullets.erase(bullets.begin() + j);
                 stats::enemy::lastPos = enemies[ i ].getPosition();
@@ -215,11 +171,11 @@ functional::enemyCollisions(Ship& ship, enemies_Arr& enemies, bullets_Arr& bulle
 
 void
 functional::bonusesCollisions(Ship& ship, enemies_Arr& enemies, bonuses_Arr& bonuses) {
-    for (bonuses_Arr::size_type i = 0; i < bonuses.size(); ++i) {
+    for (unsigned int i = 0; i < bonuses.size(); ++i) {
         if (ship.getBounds().intersects(bonuses[ i ].getBounds())) {
             switch (bonuses[ i ].type) {
                 case Bonus::super_bullet :
-                    stats::game::score += (enemies.size() & 3);
+                    stats::game::score += (enemies.size() * 3);
                     stats::enemy::fragCounter += enemies.size();
                     enemies.clear();
                     break;
@@ -243,28 +199,5 @@ functional::handleCollisions(Ship& ship, enemies_Arr& enemies, bullets_Arr& bull
                             bonuses_Arr& bonuses, sf::Text& lives) {
     enemyCollisions(ship, enemies, bullets, bonuses, lives);
     bonusesCollisions(ship, enemies, bonuses);
-}
-
-void
-functional::CanFire::updateStatus() {
-    if (stats::bullet::bulletsLeft < 1) {
-        canFire = false;
-
-        if (!reloadClockRestarted) {
-            reloadClock.restart();
-            reloadClockRestarted = true;
-        }
-
-        if (reloadClock.getElapsedTime().asSeconds() >= 3) {
-            reloadClockRestarted = false;
-            stats::bullet::bulletsLeft = stats::bullet::maxBullets;
-            canFire = true;
-        }
-    }
-}
-
-bool
-functional::CanFire::getStatus() {
-    return canFire;
 }
 

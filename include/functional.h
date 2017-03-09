@@ -13,23 +13,13 @@
 namespace functional {
     // vsAliens functional stuff
 
-    class CanFire {
-    public:
-        void updateStatus();
-        bool getStatus();
-    private:
-        sf::Clock reloadClock;
-        bool reloadClockRestarted;
-        bool canFire = true;
-    };
-
     /////////////////////////////////////////////////////////////////////
     // in-game keyboard events
     void
     handleEvents(sf::Event& event, sf::RenderWindow& window,
                  Ship& ship, bullets_Arr& bullets,
                  sf::Text& lives, sf::Clock& clock,
-                 CanFire &cf, float& deltaTime);
+                 float& deltaTime);
 
     /////////////////////////////////////////////////////////////////////
     //
@@ -50,21 +40,6 @@ namespace functional {
             bonuses_Arr& bonuses);
 
     /////////////////////////////////////////////////////////////////////
-    // firing bullets
-    void
-    fireBullet(Ship& ship, bullets_Arr& bullets, CanFire& cf);
-
-    /////////////////////////////////////////////////////////////////////
-    // updating bullets' positions
-    void
-    bulletsUpdate(bullets_Arr& bullets, float& deltaTime);
-
-    /////////////////////////////////////////////////////////////////////
-    // spawning enemies in given amount of time
-    void
-    spawnEnemies(enemies_Arr& enemies, Ship& ship);
-
-    /////////////////////////////////////////////////////////////////////
     // spawning bonuses
     void
     spawnBonuses(bonuses_Arr& bonuses);
@@ -73,11 +48,6 @@ namespace functional {
     // updating bonuses
     void
     updateBonuses(bonuses_Arr& bonuses);
-
-    /////////////////////////////////////////////////////////////////////
-    // updating enemies' pos; handling random movement
-    void
-    enemiesUpdate(Ship& ship, enemies_Arr& enemies, float& deltaTime);
 
     /////////////////////////////////////////////////////////////////////
     // updating score text field
@@ -110,6 +80,4 @@ namespace functional {
     void
     handleCollisions(Ship& ship, enemies_Arr& enemies, bullets_Arr& bullets,
                     bonuses_Arr& bonuses, sf::Text& lives);
-
-
 }

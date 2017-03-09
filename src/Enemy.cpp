@@ -87,3 +87,23 @@ void Enemy::randomMove(Ship& ship) {
         movementClock.restart();
     }
 }
+
+///////////////////////////////////////////////////////////////////////////////////////
+void
+enemies_Arr::spawn(Ship& ship) {
+    if (spawnClock.getElapsedTime().asSeconds() > 1) {
+        Enemy newEnemy = Enemy(settings::textures::enemyTexture, ship);
+        this->push_back(newEnemy);
+        spawnClock.restart();
+    }
+}
+
+void
+enemies_Arr::update(Ship& ship, float& deltaTime) {
+    spawn(ship);
+
+    for (unsigned int i = 0; i < this->size(); ++i) {
+        this->at(i).randomMove(ship);
+        this->at(i).updatePos(deltaTime);
+    }
+}

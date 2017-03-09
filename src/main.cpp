@@ -7,7 +7,6 @@
 
 #include "../include/shared.h"
 #include "../include/functional.h"
-#include "../include/stats.h"
 
 
 int main() {
@@ -77,18 +76,16 @@ int main() {
     float deltaTime = 0;
     window.setKeyRepeatEnabled(false);
 
-    functional::CanFire cf;
-
     // Game mainloop
     while (window.isOpen()) {
-        functional::handleEvents(event, window, ship, bullets, lives, clock, cf, deltaTime);
+        functional::handleEvents(event, window, ship, bullets, lives, clock, deltaTime);
         functional::handleCollisions(ship, enemies, bullets, bonuses, lives);
-        cf.updateStatus();
+        ship.updateCannonStatus();
 
         if (stats::game::isActive) {
             ship.updatePos(deltaTime);
-            functional::bulletsUpdate(bullets, deltaTime);
-            functional::enemiesUpdate(ship, enemies, deltaTime);
+            bullets.update(deltaTime);
+            enemies.update(ship, deltaTime);
             functional::updateBonuses(bonuses);
             functional::updateScore(score);
             functional::updateLives(lives);

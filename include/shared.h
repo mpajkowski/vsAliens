@@ -12,6 +12,7 @@
 #include <SFML/Graphics.hpp>
 #include <cmath>
 #include "settings.h"
+#include "stats.h"
 
 
 template<typename T>
@@ -26,6 +27,7 @@ public:
     using Vector::operator[];
     using Vector::push_back;
     using Vector::erase;
+    void test() { printf("%d\n", this->size()); }
 private:
     //
 };

@@ -5,11 +5,10 @@
 #pragma once
 
 #include "../include/shared.h"
-#include "Ship.h"
 
 class Bullet : public sf::Drawable {
 public:
-    Bullet(Ship& ship);
+    Bullet(sf::Vector2f pos);
 
     virtual void draw(sf::RenderTarget& target,
                       sf::RenderStates states) const;
@@ -28,4 +27,7 @@ private:
     sf::Vector2f pos;
 };
 
-class bullets_Arr : public ObjectContainer<Bullet> {};
+class bullets_Arr : public ObjectContainer<Bullet> {
+public:
+    void update(float& deltaTime);
+};

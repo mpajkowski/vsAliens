@@ -4,9 +4,8 @@
 
 #include "../include/shared.h"
 #include "../include/Bullet.h"
-#include "../include/stats.h"
 
-Bullet::Bullet(Ship& ship)
+Bullet::Bullet(sf::Vector2f pos)
 {
     texture.loadFromFile("images/bullet.bmp");
 
@@ -14,8 +13,8 @@ Bullet::Bullet(Ship& ship)
     sprite.setOrigin(2, 8);
     sprite.setColor(sf::Color::Black);
 
-    pos.x = ship.getPosition().x;
-    pos.y = ship.getPosition().y - 20;
+    pos.y -= 20;
+
     sprite.setPosition(pos);
 }
 
@@ -44,4 +43,17 @@ Bullet::getSprite() {
 sf::FloatRect
 Bullet::getBounds() {
     return sprite.getGlobalBounds();
+}
+
+////////////////////////////////////////////////////////////////////////
+
+void
+bullets_Arr::update(float& deltaTime) {
+    for (unsigned int i = 0; i < this->size(); ++i) {
+        this->at(i).updateBullet(deltaTime);
+
+        if (this->at(i).getPos().y < 0) {
+            this->erase(this->begin() + i);
+        }
+    }
 }

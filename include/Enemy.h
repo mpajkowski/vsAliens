@@ -26,5 +26,10 @@ private:
     bool wantMoveUp = false;
 };
 
-//typedef std::vector<Enemy> enemies_Arr;
-class enemies_Arr : public ObjectContainer<Enemy> {};
+class enemies_Arr : public ObjectContainer<Enemy> {
+    public:
+        void spawn (Ship& ship);
+        void update(Ship& ship, float& deltaTime);
+    private:
+        sf::Clock spawnClock;
+};
