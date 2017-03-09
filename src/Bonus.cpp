@@ -29,8 +29,7 @@ Bonus::Bonus(float x, float y, Type type)
 }
 
 void
-Bonus::draw(sf::RenderTarget &target, sf::RenderStates states) const
-{
+Bonus::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     target.draw(sprite, states);
 }
 
@@ -43,4 +42,28 @@ float
 Bonus::getSpawnTime() {
     float spawnTime = spawnClock.getElapsedTime().asSeconds();
     return spawnTime;
+}
+
+//////////////////////////////////////////////////////////////////////////////
+
+void
+bonuses_Arr::spawn() {
+    if (stats::enemy::fragCounter >= 5) {
+        Bonus newBonus(stats::enemy::lastPos.x,
+                       stats::enemy::lastPos.y,
+                       static_cast<Bonus::Type>(rand() % 3));
+        push_back(newBonus);
+        stats::enemy::fragCounter = 0;
+    }
+}
+
+void
+bonuses_Arr::update() {
+    spawn();
+
+    for (unsigned int i = 0; i < size(); ++i) {
+        if (at(i).getSpawnTime() > 5) {
+            erase(begin() + i);
+        }
+    }
 }

@@ -15,8 +15,7 @@
 void
 functional::handleEvents(sf::Event& event, sf::RenderWindow& window,
                          Ship& ship, bullets_Arr& bullets,
-                         sf::Text& lives, sf::Clock& clock,
-                        float& deltaTime) {
+                         sf::Clock& clock, float& deltaTime) {
     while (window.pollEvent(event)) {
         switch (event.type) {
             case sf::Event::Closed :
@@ -28,7 +27,6 @@ functional::handleEvents(sf::Event& event, sf::RenderWindow& window,
                 } else if (event.key.code == sf::Keyboard::Space) {
                     if (!stats::game::isActive) {
                         stats::game::isActive = true;
-                        lives.setPosition(settings::window::WIDTH - 100, 0);
                     } else {
                         ship.fireBullet(bullets);
                     }
@@ -50,10 +48,8 @@ functional::handleShipMovement(Ship& ship) {
 }
 
 void
-functional::gameOver(sf::Text& lives, enemies_Arr& enemies, bullets_Arr& bullets,
+functional::gameOver(Hud& hud, enemies_Arr& enemies, bullets_Arr& bullets,
             bonuses_Arr& bonuses) {
-    lives.setString("Game Over");
-    lives.setPosition(settings::window::WIDTH - 150, 0);
 
     //reset stats
     stats::game::score = 0;
@@ -70,9 +66,8 @@ functional::gameOver(sf::Text& lives, enemies_Arr& enemies, bullets_Arr& bullets
 }
 
 void
-functional::drawScreen(sf::RenderWindow& window, Ship& ship, enemies_Arr& enemies,
-                       bullets_Arr& bullets, bonuses_Arr& bonuses,
-                       sf::Text& score, sf::Text& lives, sf::Text& avBullets) {
+functional::drawScreen(sf::RenderWindow& window, Hud& hud, Ship& ship, enemies_Arr& enemies,
+                       bullets_Arr& bullets, bonuses_Arr& bonuses) {
     window.clear(sf::Color::White);
     window.draw(ship);
 
@@ -88,65 +83,14 @@ functional::drawScreen(sf::RenderWindow& window, Ship& ship, enemies_Arr& enemie
         window.draw(bonuses[ i ]);
     }
 
-    window.draw(score);
-    window.draw(lives);
-    window.draw(avBullets);
+    window.draw(hud);
 
     window.display();
 }
 
 void
-functional::spawnBonuses(bonuses_Arr& bonuses) {
-    if (stats::enemy::fragCounter >= 5) {
-        Bonus newBonus(stats::enemy::lastPos.x,
-                       stats::enemy::lastPos.y,
-                       static_cast<Bonus::Type>(rand() % 3));
-        bonuses.push_back(newBonus);
-        stats::enemy::fragCounter = 0;
-    }
-}
-
-void
-functional::updateBonuses(bonuses_Arr& bonuses) {
-    spawnBonuses(bonuses);
-
-    for (unsigned int i = 0; i < bonuses.size(); ++i) {
-        if (bonuses[ i ].getSpawnTime() > 5) {
-            bonuses.erase(bonuses.begin() + i);
-        }
-    }
-}
-
-void
-functional::updateScore(sf::Text& score) {
-    std::string msg = "Score: " + std::to_string(stats::game::score);
-    score.setString(msg);
-}
-
-void
-functional::updateLives(sf::Text& lives) {
-    std::string msg = "Lives: " + std::to_string(stats::game::lives);
-    lives.setString(msg);
-}
-
-void
-functional::updateAvBullets(sf::Text& avBullets) {
-    std::string msg;
-
-    for (int i = 0; i < stats::bullet::bulletsLeft; ++i) {
-        msg += "* ";
-    }
-
-    for (int i = 0; i < stats::bullet::maxBullets - stats::bullet::bulletsLeft; ++i) {
-        msg +=  "- ";
-    }
-
-    avBullets.setString(msg);
-}
-
-void
-functional::enemyCollisions(Ship& ship, enemies_Arr& enemies, bullets_Arr& bullets,
-                            bonuses_Arr& bonuses, sf::Text& lives) {
+functional::enemyCollisions(Hud& hud, Ship& ship, enemies_Arr& enemies, bullets_Arr& bullets,
+                            bonuses_Arr& bonuses) {
     for (unsigned int i = 0; i < enemies.size(); ++i) {
         for (unsigned int j = 0; j < bullets.size(); ++j) {
             if (bullets[ j ].getBounds().intersects(enemies[ i ].getBounds())) {
@@ -163,7 +107,7 @@ functional::enemyCollisions(Ship& ship, enemies_Arr& enemies, bullets_Arr& bulle
             ship.setPosition(500, 600);
             enemies.erase(enemies.begin() + i);
             if (stats::game::lives < 1) {
-                gameOver(lives, enemies, bullets, bonuses);
+                gameOver(hud, enemies, bullets, bonuses);
             }
         }
     }
@@ -184,7 +128,6 @@ functional::bonusesCollisions(Ship& ship, enemies_Arr& enemies, bonuses_Arr& bon
                     break;
                 case Bonus::extra_bullet :
                     ++stats::bullet::maxBullets;
-                    //++stats::bullet::bulletsLeft;
                     break;
                 default :
                     break;
@@ -195,9 +138,8 @@ functional::bonusesCollisions(Ship& ship, enemies_Arr& enemies, bonuses_Arr& bon
 }
 
 void
-functional::handleCollisions(Ship& ship, enemies_Arr& enemies, bullets_Arr& bullets,
-                            bonuses_Arr& bonuses, sf::Text& lives) {
-    enemyCollisions(ship, enemies, bullets, bonuses, lives);
+functional::handleCollisions(Hud& hud, Ship& ship, enemies_Arr& enemies, bullets_Arr& bullets,
+                            bonuses_Arr& bonuses) {
+    enemyCollisions(hud, ship, enemies, bullets, bonuses);
     bonusesCollisions(ship, enemies, bonuses);
 }
-

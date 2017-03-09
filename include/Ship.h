@@ -20,5 +20,5 @@ public:
 private:
     sf::Clock reloadClock;
     bool reloadClockRestarted;
-    bool canFire = true;
+    bool canFire;
 };

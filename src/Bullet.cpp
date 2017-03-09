@@ -49,11 +49,11 @@ Bullet::getBounds() {
 
 void
 bullets_Arr::update(float& deltaTime) {
-    for (unsigned int i = 0; i < this->size(); ++i) {
-        this->at(i).updateBullet(deltaTime);
+    for (unsigned int i = 0; i < size(); ++i) {
+        at(i).updateBullet(deltaTime);
 
-        if (this->at(i).getPos().y < 0) {
-            this->erase(this->begin() + i);
+        if (at(i).getPos().y < 0) {
+            erase(begin() + i);
         }
     }
 }

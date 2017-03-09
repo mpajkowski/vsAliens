@@ -49,52 +49,27 @@ int main() {
     sf::Font font;
     font.loadFromFile("arial.ttf");
 
-    /////////////////////////////////////////////////
-    // score text field
-    sf::Text score;
-    score.setFont(font);
-    score.setCharacterSize(24);
-    score.setFillColor(sf::Color::Black);
+    Hud hud(font);
 
-    /////////////////////////////////////////////////
-    // lives text field
-    sf::Text lives;
-    lives.setFont(font);
-    lives.setCharacterSize(24);
-    lives.setFillColor(sf::Color::Black);
-    lives.setPosition(settings::window::WIDTH - 300, 0);
-    lives.setString("Press SPACE to start");
-    /////////////////////////////////////////////////
-    // avBullets text field
-    sf::Text avBullets;
-    avBullets.setFont(font);
-    avBullets.setCharacterSize(24);
-    avBullets.setFillColor(sf::Color::Black);
-    avBullets.setPosition(settings::window::WIDTH / 2 - 50, 0);
-
-    /////////////////////////////////////////////////
     float deltaTime = 0;
     window.setKeyRepeatEnabled(false);
 
     // Game mainloop
     while (window.isOpen()) {
-        functional::handleEvents(event, window, ship, bullets, lives, clock, deltaTime);
-        functional::handleCollisions(ship, enemies, bullets, bonuses, lives);
+        functional::handleEvents(event, window, ship, bullets, clock, deltaTime);
+        functional::handleCollisions(hud, ship, enemies, bullets, bonuses);
         ship.updateCannonStatus();
 
         if (stats::game::isActive) {
             ship.updatePos(deltaTime);
             bullets.update(deltaTime);
             enemies.update(ship, deltaTime);
-            functional::updateBonuses(bonuses);
-            functional::updateScore(score);
-            functional::updateLives(lives);
-            functional::updateAvBullets(avBullets);
+            bonuses.update();
+            hud.update();
         }
 
         deltaTime = clock.restart().asSeconds();
-        functional::drawScreen(window, ship, enemies, bullets, bonuses, score, lives, avBullets);
+        functional::drawScreen(window, hud, ship, enemies, bullets, bonuses);
     }
-
     return 0;
 }

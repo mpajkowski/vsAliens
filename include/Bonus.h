@@ -33,4 +33,8 @@ private:
     sf::Clock spawnClock;
 };
 
-class bonuses_Arr : public ObjectContainer<Bonus> {};
+class bonuses_Arr : public ObjectContainer<Bonus> {
+public:
+    void spawn();
+    void update();
+};

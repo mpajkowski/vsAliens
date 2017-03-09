@@ -4,7 +4,6 @@
 
 #pragma once
 #include "shared.h"
-#include <ctime>
 
 namespace stats {
     namespace game {
