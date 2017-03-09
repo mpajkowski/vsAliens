@@ -5,7 +5,7 @@
 #pragma once
 
 #include "../include/shared.h"
-#include "../include/Ship.h"
+#include "Ship.h"
 
 class Bullet : public sf::Drawable {
 public:

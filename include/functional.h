@@ -13,13 +13,23 @@
 namespace functional {
     // vsAliens functional stuff
 
+    class CanFire {
+    public:
+        void updateStatus();
+        bool getStatus();
+    private:
+        sf::Clock reloadClock;
+        bool reloadClockRestarted;
+        bool canFire = true;
+    };
+
     /////////////////////////////////////////////////////////////////////
     // in-game keyboard events
     void
     handleEvents(sf::Event& event, sf::RenderWindow& window,
                  Ship& ship, bullets_Arr& bullets,
                  sf::Text& lives, sf::Clock& clock,
-                 float& deltaTime);
+                 CanFire &cf, float& deltaTime);
 
     /////////////////////////////////////////////////////////////////////
     //
@@ -42,12 +52,7 @@ namespace functional {
     /////////////////////////////////////////////////////////////////////
     // firing bullets
     void
-    fireBullet(Ship& ship, bullets_Arr& bullets);
-
-    /////////////////////////////////////////////////////////////////////
-    //
-    bool
-    canFire();
+    fireBullet(Ship& ship, bullets_Arr& bullets, CanFire& cf);
 
     /////////////////////////////////////////////////////////////////////
     // updating bullets' positions
@@ -105,4 +110,6 @@ namespace functional {
     void
     handleCollisions(Ship& ship, enemies_Arr& enemies, bullets_Arr& bullets,
                     bonuses_Arr& bonuses, sf::Text& lives);
+
+
 }

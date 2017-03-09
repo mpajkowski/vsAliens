@@ -75,13 +75,15 @@ int main() {
 
     /////////////////////////////////////////////////
     float deltaTime = 0;
-
     window.setKeyRepeatEnabled(false);
+
+    functional::CanFire cf;
 
     // Game mainloop
     while (window.isOpen()) {
-        functional::handleEvents(event, window, ship, bullets, lives, clock, deltaTime);
+        functional::handleEvents(event, window, ship, bullets, lives, clock, cf, deltaTime);
         functional::handleCollisions(ship, enemies, bullets, bonuses, lives);
+        cf.updateStatus();
 
         if (stats::game::isActive) {
             ship.updatePos(deltaTime);
@@ -91,11 +93,9 @@ int main() {
             functional::updateScore(score);
             functional::updateLives(lives);
             functional::updateAvBullets(avBullets);
-            functional::canFire();
         }
 
         deltaTime = clock.restart().asSeconds();
-
         functional::drawScreen(window, ship, enemies, bullets, bonuses, score, lives, avBullets);
     }
 

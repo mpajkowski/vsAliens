@@ -17,7 +17,7 @@ void
 functional::handleEvents(sf::Event& event, sf::RenderWindow& window,
                          Ship& ship, bullets_Arr& bullets,
                          sf::Text& lives, sf::Clock& clock,
-                         float& deltaTime) {
+                         CanFire& cf, float& deltaTime) {
     while (window.pollEvent(event)) {
         switch (event.type) {
             case sf::Event::Closed :
@@ -31,7 +31,7 @@ functional::handleEvents(sf::Event& event, sf::RenderWindow& window,
                         stats::game::isActive = true;
                         lives.setPosition(settings::window::WIDTH - 100, 0);
                     } else {
-                        fireBullet(ship, bullets);
+                        fireBullet(ship, bullets, cf);
                     }
                 }
             default :
@@ -97,37 +97,13 @@ functional::drawScreen(sf::RenderWindow& window, Ship& ship, enemies_Arr& enemie
 }
 
 void
-functional::fireBullet(Ship& ship, bullets_Arr& bullets) {
+functional::fireBullet(Ship& ship, bullets_Arr& bullets, CanFire& cf) {
 
-    if (canFire()) {
+    if (cf.getStatus()) {
         Bullet newBullet(ship);
         bullets.push_back(newBullet);
         --stats::bullet::bulletsLeft;
     }
-}
-
-bool
-functional::canFire() {
-    bool canFire = true;
-    static sf::Clock reloadClock;
-    static bool reloadClockRestarted;
-
-    if (stats::bullet::bulletsLeft == 0) {
-        canFire = false;
-
-        if (!reloadClockRestarted) {
-            reloadClock.restart();
-            reloadClockRestarted = true;
-        }
-
-        if (reloadClock.getElapsedTime().asSeconds() >= 3) {
-            reloadClockRestarted = false;
-            stats::bullet::bulletsLeft = stats::bullet::maxBullets;
-            canFire = true;
-        }
-    }
-
-    return canFire;
 }
 
 void
@@ -268,3 +244,27 @@ functional::handleCollisions(Ship& ship, enemies_Arr& enemies, bullets_Arr& bull
     enemyCollisions(ship, enemies, bullets, bonuses, lives);
     bonusesCollisions(ship, enemies, bonuses);
 }
+
+void
+functional::CanFire::updateStatus() {
+    if (stats::bullet::bulletsLeft < 1) {
+        canFire = false;
+
+        if (!reloadClockRestarted) {
+            reloadClock.restart();
+            reloadClockRestarted = true;
+        }
+
+        if (reloadClock.getElapsedTime().asSeconds() >= 3) {
+            reloadClockRestarted = false;
+            stats::bullet::bulletsLeft = stats::bullet::maxBullets;
+            canFire = true;
+        }
+    }
+}
+
+bool
+functional::CanFire::getStatus() {
+    return canFire;
+}
+
