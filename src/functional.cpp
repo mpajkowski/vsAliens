@@ -59,6 +59,7 @@ functional::gameOver(Hud& hud, enemies_Arr& enemies, bullets_Arr& bullets,
     bullets.clear();
     bonuses.clear();
 
+    hud.gameOver();
     stats::game::isActive = false;
 }
 
@@ -114,7 +115,7 @@ functional::enemyCollisions(Hud& hud, Ship& ship, enemies_Arr& enemies, bullets_
 
 void
 functional::bonusesCollisions(Ship& ship, enemies_Arr& enemies, bonuses_Arr& bonuses) {
-    for (unsigned int i = 0; i < bonuses.size(); ++i) {
+    for (uint i = 0; i < bonuses.size(); ++i) {
         if (ship.getBounds().intersects(bonuses[ i ].getBounds())) {
             switch (bonuses[ i ].type) {
                 case Bonus::super_bullet :
