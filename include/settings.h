@@ -13,11 +13,11 @@ namespace settings {
     }
 
     namespace ship {
-        extern const int MOVE_SPEED;
+        extern const float MOVE_SPEED;
     }
 
     namespace enemy {
-        extern const int MOVE_SPEED;
+        extern const float MOVE_SPEED;
     }
 
     namespace textures {
@@ -27,7 +27,7 @@ namespace settings {
     }
 
     namespace bullet {
-        extern double speed;
+        extern float speed;
         extern int maxBullets;
         }
 }

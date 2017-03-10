@@ -17,7 +17,7 @@ namespace stats {
     }
 
     namespace bullet {
-        extern double speed;
+        extern float speed;
         extern int bulletsLeft;
         extern int maxBullets;
     }

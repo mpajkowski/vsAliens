@@ -19,24 +19,24 @@ Character::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 }
 
 void
-Character::updatePos(float& delta) {
+Character::updatePos(float& deltaTime) {
 
     confirmMove();
 
     if (getMoveFlag(left)) {
-        sprite.move(-matchSpeed() * delta, 0);
+        sprite.move(-matchSpeed() * deltaTime, 0);
     }
 
     if (getMoveFlag(right)) {
-        sprite.move(matchSpeed() * delta, 0);
+        sprite.move(matchSpeed() * deltaTime, 0);
     }
 
     if (getMoveFlag(down)) {
-        sprite.move(0, matchSpeed() * delta);
+        sprite.move(0, matchSpeed() * deltaTime);
     }
 
     if (getMoveFlag(up)) {
-        sprite.move(0, -matchSpeed() * delta);
+        sprite.move(0, -matchSpeed() * deltaTime);
     }
 }
 
@@ -141,9 +141,9 @@ Character::matchSpeed() {
     float currentSpeed;
 
     if ((isMovingUp xor isMovingDown) xor (isMovingLeft xor isMovingRight)) {
-        currentSpeed = this->speed;
+        currentSpeed = speed;
     } else {
-        currentSpeed = (speed * sqrt(2) / 2);
+        currentSpeed = speed * static_cast<float>(sqrt(2)) / 2;
     }
 
     return currentSpeed;

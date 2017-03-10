@@ -11,21 +11,20 @@ namespace settings {
     }
 
     namespace ship {
-        const int MOVE_SPEED = 300;
+        const float MOVE_SPEED = 300;
     }
 
     namespace enemy {
-        const int MOVE_SPEED = 100;
+        const float MOVE_SPEED = 100;
     }
 
     namespace textures {
-        sf::Font font;
         sf::Texture shipTexture;
         sf::Texture enemyTexture;
     }
 
     namespace bullet {
-        double speed = 500;
+        float speed = 500;
         int maxBullets = 4;
     }
 }

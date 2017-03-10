@@ -7,10 +7,7 @@
 
 #include "../include/Ship.h"
 #include "../include/Enemy.h"
-#include "../include/Bullet.h"
 #include "../include/functional.h"
-
-#include <random>
 
 void
 functional::handleEvents(sf::Event& event, sf::RenderWindow& window,
@@ -71,16 +68,16 @@ functional::drawScreen(sf::RenderWindow& window, Hud& hud, Ship& ship, enemies_A
     window.clear(sf::Color::White);
     window.draw(ship);
 
-    for (unsigned int i = 0; i < enemies.size(); ++i) {
-        window.draw(enemies[ i ]);
+    for (auto& enemy : enemies) {
+        window.draw(enemy);
     }
 
-    for (unsigned int i = 0; i < bullets.size(); ++i) {
-        window.draw(bullets[ i ]);
+    for (auto& bullet : bullets) {
+        window.draw(bullet);
     }
 
-    for (unsigned int i = 0; i < bonuses.size(); ++i) {
-        window.draw(bonuses[ i ]);
+    for (auto& bonus : bonuses) {
+        window.draw(bonus);
     }
 
     window.draw(hud);
@@ -91,8 +88,8 @@ functional::drawScreen(sf::RenderWindow& window, Hud& hud, Ship& ship, enemies_A
 void
 functional::enemyCollisions(Hud& hud, Ship& ship, enemies_Arr& enemies, bullets_Arr& bullets,
                             bonuses_Arr& bonuses) {
-    for (unsigned int i = 0; i < enemies.size(); ++i) {
-        for (unsigned int j = 0; j < bullets.size(); ++j) {
+    for (uint i = 0; i < enemies.size();) {
+        for (uint j = 0; j < bullets.size();) {
             if (bullets[ j ].getBounds().intersects(enemies[ i ].getBounds())) {
                 bullets.erase(bullets.begin() + j);
                 stats::enemy::lastPos = enemies[ i ].getPosition();
@@ -100,6 +97,7 @@ functional::enemyCollisions(Hud& hud, Ship& ship, enemies_Arr& enemies, bullets_
                 enemies.erase(enemies.begin() + i);
                 stats::game::score += 5;
             }
+            else ++j;
         }
 
         if (ship.getBounds().intersects(enemies[ i ].getBounds())) {
@@ -110,6 +108,7 @@ functional::enemyCollisions(Hud& hud, Ship& ship, enemies_Arr& enemies, bullets_
                 gameOver(hud, enemies, bullets, bonuses);
             }
         }
+        else ++i;
     }
 }
 

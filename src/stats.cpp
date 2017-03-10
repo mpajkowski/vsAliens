@@ -13,7 +13,7 @@ namespace stats {
     }
 
     namespace bullet {
-        double speed = settings::bullet::speed;
+        float speed = settings::bullet::speed;
         int maxBullets = settings::bullet::maxBullets;
         int bulletsLeft = stats::bullet::maxBullets;
     }

@@ -14,7 +14,7 @@
 #include "settings.h"
 #include "stats.h"
 
-
+typedef unsigned int uint;
 template<typename T>
 class ObjectContainer : private std::vector<T> {
 public:
@@ -27,6 +27,11 @@ public:
     using Vector::operator[];
     using Vector::push_back;
     using Vector::erase;
+    using Vector::iterator;
+    using Vector::const_iterator;
+    using Vector::end;
+    using Vector::cbegin;
+    using Vector::cend;
     void test() { printf("%d\n", this->size()); }
 private:
     //
