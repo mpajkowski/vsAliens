@@ -11,7 +11,7 @@
 
 void
 functional::handleEvents(sf::Event& event, sf::RenderWindow& window,
-                         Ship& ship, bullets_Arr& bullets,
+                         Hud& hud, Ship& ship, bullets_Arr& bullets,
                          sf::Clock& clock, float& deltaTime) {
     while (window.pollEvent(event)) {
         switch (event.type) {
@@ -22,8 +22,8 @@ functional::handleEvents(sf::Event& event, sf::RenderWindow& window,
                 if (event.key.code == sf::Keyboard::Q) {
                     window.close();
                 } else if (event.key.code == sf::Keyboard::Space) {
-                    if (!stats::game::isActive) {
-                        stats::game::isActive = true;
+                    if (!hud.getGameStatus()) {
+                        hud.setGameStatus(true);
                     } else {
                         ship.fireBullet(bullets);
                     }
@@ -45,22 +45,15 @@ functional::handleShipMovement(Ship& ship) {
 }
 
 void
-functional::gameOver(Hud& hud, enemies_Arr& enemies, bullets_Arr& bullets,
+functional::gameOver(Hud& hud, Ship& ship, enemies_Arr& enemies, bullets_Arr& bullets,
             bonuses_Arr& bonuses) {
-
-    //reset stats
-    stats::game::score = 0;
-    stats::game::lives = 1;
-    stats::bullet::maxBullets = settings::bullet::maxBullets;
-    stats::bullet::bulletsLeft = settings::bullet::maxBullets;
-    stats::bullet::speed = settings::bullet::speed;
-    stats::enemy::fragCounter = 0;
-    enemies.clear();
+    ship.reset();
+    enemies.reset();
     bullets.clear();
     bonuses.clear();
 
     hud.gameOver();
-    stats::game::isActive = false;
+    hud.setGameStatus(false);
 }
 
 void
@@ -93,20 +86,24 @@ functional::enemyCollisions(Hud& hud, Ship& ship, enemies_Arr& enemies, bullets_
         for (uint j = 0; j < bullets.size();) {
             if (bullets[ j ].getBounds().intersects(enemies[ i ].getBounds())) {
                 bullets.erase(bullets.begin() + j);
-                stats::enemy::lastPos = enemies[ i ].getPosition();
-                ++stats::enemy::fragCounter;
+
+                hud.updateScore(5);
+
+                sf::Vector2f send = enemies[ i ].getPosition();
+                bonuses.updatePos(send);
+                bonuses.updateFragCounter(1);
+
                 enemies.erase(enemies.begin() + i);
-                stats::game::score += 5;
             }
             else ++j;
         }
 
         if (ship.getBounds().intersects(enemies[ i ].getBounds())) {
-            stats::game::lives--;
+            ship.removeLife();
             ship.setPosition(500, 600);
             enemies.erase(enemies.begin() + i);
-            if (stats::game::lives < 1) {
-                gameOver(hud, enemies, bullets, bonuses);
+            if (ship.getLives() < 1) {
+                gameOver(hud, ship, enemies, bullets, bonuses);
             }
         }
         else ++i;
@@ -114,20 +111,20 @@ functional::enemyCollisions(Hud& hud, Ship& ship, enemies_Arr& enemies, bullets_
 }
 
 void
-functional::bonusesCollisions(Ship& ship, enemies_Arr& enemies, bonuses_Arr& bonuses) {
+functional::bonusesCollisions(Hud& hud, Ship& ship, enemies_Arr& enemies, bonuses_Arr& bonuses) {
     for (uint i = 0; i < bonuses.size(); ++i) {
         if (ship.getBounds().intersects(bonuses[ i ].getBounds())) {
             switch (bonuses[ i ].type) {
                 case Bonus::super_bullet :
-                    stats::game::score += (enemies.size() * 3);
-                    stats::enemy::fragCounter += enemies.size();
-                    enemies.clear();
+                    hud.updateScore(enemies.size() * 3);
+                    bonuses.updateFragCounter(enemies.size());
+                    enemies.reset();
                     break;
                 case Bonus::extra_life :
-                    ++stats::game::lives;
+                    ship.addLife();
                     break;
                 case Bonus::extra_bullet :
-                    ++stats::bullet::maxBullets;
+                    ship.addBullet();
                     break;
                 default :
                     break;
@@ -141,5 +138,5 @@ void
 functional::handleCollisions(Hud& hud, Ship& ship, enemies_Arr& enemies, bullets_Arr& bullets,
                             bonuses_Arr& bonuses) {
     enemyCollisions(hud, ship, enemies, bullets, bonuses);
-    bonusesCollisions(ship, enemies, bonuses);
+    bonusesCollisions(hud, ship, enemies, bonuses);
 }

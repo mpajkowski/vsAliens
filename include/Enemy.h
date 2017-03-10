@@ -28,8 +28,11 @@ private:
 
 class enemies_Arr : public ObjectContainer<Enemy> {
     public:
+        enemies_Arr();
+        void reset();
         void spawn (Ship& ship);
         void update(Ship& ship, float& deltaTime);
     private:
         sf::Clock spawnClock;
+        int fragCounter;
 };

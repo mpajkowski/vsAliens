@@ -29,7 +29,7 @@ Bullet::getPos() {
 
 void
 Bullet::updateBullet(float& deltaTime) {
-    sprite.move(0, -stats::bullet::speed * deltaTime);
+    sprite.move(0, -500 * deltaTime);
 }
 
 sf::FloatRect

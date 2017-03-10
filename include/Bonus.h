@@ -11,7 +11,7 @@ public:
 
     Type type;
 
-    Bonus(float x, float y, Type type);
+    Bonus(sf::Vector2f pos, Type type);
 
     virtual void draw(sf::RenderTarget& target,
                       sf::RenderStates states) const;
@@ -26,6 +26,7 @@ public:
 
     float getSpawnTime();
 
+    void handleAction(Type type, Ship& ship, enemies_Arr& enemies);
 private:
     sf::Sprite sprite;
     sf::Texture texture;
@@ -34,7 +35,15 @@ private:
 };
 
 class bonuses_Arr : public ObjectContainer<Bonus> {
+private:
+    sf::Vector2f pos;
+   // int spawnCounter;
+    int fragCounter;
 public:
     void spawn();
     void update();
+    void updatePos(sf::Vector2f newPos);
+    void updateFragCounter(int arg);
+    void resetFragCounter();
+    int getFragCounter();
 };

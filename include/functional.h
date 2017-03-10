@@ -18,7 +18,7 @@ namespace functional {
     // in-game keyboard events
     void
     handleEvents(sf::Event& event, sf::RenderWindow& window,
-                 Ship& ship, bullets_Arr& bullets,
+                 Hud& hud, Ship& ship, bullets_Arr& bullets,
                  sf::Clock& clock, float& deltaTime);
 
     /////////////////////////////////////////////////////////////////////
@@ -35,7 +35,7 @@ namespace functional {
     /////////////////////////////////////////////////////////////////////
     // game over and reset stats
     void
-    gameOver(Hud& hud, enemies_Arr& enemies, bullets_Arr& bullets,
+    gameOver(Hud& hud, Ship& ship, enemies_Arr& enemies, bullets_Arr& bullets,
             bonuses_Arr& bonuses);
 
     /////////////////////////////////////////////////////////////////////
@@ -47,7 +47,7 @@ namespace functional {
     /////////////////////////////////////////////////////////////////////
     //
     void
-    bonusesCollisions(Ship& ship, enemies_Arr& enemies, bonuses_Arr& bonuses);
+    bonusesCollisions(Hud& hud, Ship& ship, enemies_Arr& enemies, bonuses_Arr& bonuses);
 
     /////////////////////////////////////////////////////////////////////
     // handling objects' collisions

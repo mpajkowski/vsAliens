@@ -56,16 +56,16 @@ int main() {
 
     // Game mainloop
     while (window.isOpen()) {
-        functional::handleEvents(event, window, ship, bullets, clock, deltaTime);
+        functional::handleEvents(event, window, hud, ship, bullets, clock, deltaTime);
         functional::handleCollisions(hud, ship, enemies, bullets, bonuses);
         ship.updateCannonStatus();
 
-        if (stats::game::isActive) {
+        if (hud.getGameStatus()) { // game is active
             ship.updatePos(deltaTime);
             bullets.update(deltaTime);
             enemies.update(ship, deltaTime);
             bonuses.update();
-            hud.update();
+            hud.update(ship);
         }
 
         deltaTime = clock.restart().asSeconds();

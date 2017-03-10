@@ -2,25 +2,23 @@
 
 
 Hud::Hud(sf::Font& font) {
-    /////////////////////////////////////////////////
-    // score text field
+
     score.setFont(font);
     score.setCharacterSize(24);
     score.setFillColor(sf::Color::Black);
+    score_i = 0;
 
-    /////////////////////////////////////////////////
-    // lives text field
     lives.setFont(font);
     lives.setCharacterSize(24);
     lives.setFillColor(sf::Color::Black);
     lives.setPosition(settings::window::WIDTH - 100, 0);
     lives.setString("[SPACE]");
-    /////////////////////////////////////////////////
-    // avBullets text field
+
     avBullets.setFont(font);
     avBullets.setCharacterSize(24);
     avBullets.setFillColor(sf::Color::Black);
     avBullets.setPosition(settings::window::WIDTH / 2 - 50, 0);
+    gameStatus = false;
 }
 
 void
@@ -31,20 +29,20 @@ Hud::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 }
 
 void
-Hud::update() {
-    std::string scoreMsg = "Score: " + std::to_string(stats::game::score);
+Hud::update(Ship& ship) {
+    std::string scoreMsg = "Score: " + std::to_string(score_i);
     score.setString(scoreMsg);
 
-    std::string livesMsg = "Lives: " + std::to_string(stats::game::lives);
+    std::string livesMsg = "Lives: " + std::to_string(ship.getLives());
     lives.setString(livesMsg);
 
     std::string avBulletsMsg;
 
-    for (int i = 0; i < stats::bullet::bulletsLeft; ++i) {
+    for (int i = 0; i < ship.getBulletsLeft(); ++i) {
         avBulletsMsg += "* ";
     }
 
-    for (int i = 0; i < stats::bullet::maxBullets - stats::bullet::bulletsLeft; ++i) {
+    for (int i = 0; i < ship.getMaxBullets() - ship.getBulletsLeft(); ++i) {
         avBulletsMsg +=  "- ";
     }
 
@@ -52,8 +50,29 @@ Hud::update() {
 }
 
 void
+Hud::setGameStatus(bool isActive) {
+    this->gameStatus = isActive;
+}
+
+bool
+Hud::getGameStatus() {
+    return gameStatus;
+}
+
+void
+Hud::updateScore(int arg) {
+    this->score_i += arg;
+}
+
+int
+Hud::getScore() {
+    return score_i;
+}
+
+void
 Hud::gameOver() {
     score.setString("");
     avBullets.setString("");
     lives.setString(":(((");
+    score_i = 0;
 }

@@ -1,7 +1,7 @@
 #include "../include/shared.h"
 #include "../include/Bonus.h"
 
-Bonus::Bonus(float x, float y, Type type)
+Bonus::Bonus(sf::Vector2f pos, Type type)
 {
     texture.loadFromFile("images/bonus.bmp");
 
@@ -23,8 +23,6 @@ Bonus::Bonus(float x, float y, Type type)
             break;
     }
 
-    pos.x = x;
-    pos.y = y;
     sprite.setPosition(pos);
 }
 
@@ -44,16 +42,27 @@ Bonus::getSpawnTime() {
     return spawnTime;
 }
 
+void
+Bonus::handleAction(Type type, Ship& ship, enemies_Arr& enemies) {
+    switch (type) {
+        case extra_life :
+            break;
+        case super_bullet :
+            break;
+        case extra_bullet :
+            break;
+        default :
+            break;
+    }
+}
 //////////////////////////////////////////////////////////////////////////////
 
 void
 bonuses_Arr::spawn() {
-    if (stats::enemy::fragCounter >= 5) {
-        Bonus newBonus(stats::enemy::lastPos.x,
-                       stats::enemy::lastPos.y,
-                       static_cast<Bonus::Type>(rand() % 3));
+    if (getFragCounter() >= 5) {
+        Bonus newBonus(pos, static_cast<Bonus::Type>(rand() % 3));
         push_back(newBonus);
-        stats::enemy::fragCounter = 0;
+        resetFragCounter();
     }
 }
 
@@ -61,9 +70,29 @@ void
 bonuses_Arr::update() {
     spawn();
 
-    for (unsigned int i = 0; i < size(); ++i) {
+    for (uint i = 0; i < size(); ++i) {
         if (at(i).getSpawnTime() > 5) {
             erase(begin() + i);
         }
     }
+}
+
+void
+bonuses_Arr::updatePos(sf::Vector2f newPos) {
+    this->pos = newPos;
+}
+
+void
+bonuses_Arr::updateFragCounter(int arg) {
+    this->fragCounter += arg;
+}
+
+void
+bonuses_Arr::resetFragCounter() {
+    fragCounter = 0;
+}
+
+int
+bonuses_Arr::getFragCounter() {
+    return fragCounter;
 }

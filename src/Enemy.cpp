@@ -89,6 +89,16 @@ void Enemy::randomMove(Ship& ship) {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
+enemies_Arr::enemies_Arr() {
+    reset();
+}
+
+void
+enemies_Arr::reset() {
+    fragCounter = 0;
+    this->clear();
+}
+
 void
 enemies_Arr::spawn(Ship& ship) {
     if (spawnClock.getElapsedTime().asSeconds() > 1) {

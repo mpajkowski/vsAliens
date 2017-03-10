@@ -12,9 +12,9 @@
 #include <SFML/Graphics.hpp>
 #include <cmath>
 #include "settings.h"
-#include "stats.h"
 
 typedef unsigned int uint;
+
 template<typename T>
 class ObjectContainer : private std::vector<T> {
 public:

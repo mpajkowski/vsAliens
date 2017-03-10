@@ -30,4 +30,5 @@ private:
 class bullets_Arr : public ObjectContainer<Bullet> {
 public:
     void update(float& deltaTime);
+    void reset();
 };

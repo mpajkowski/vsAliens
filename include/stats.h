@@ -9,16 +9,8 @@ namespace stats {
     namespace game {
         extern bool isActive;
         extern int score;
-        extern int lives;
     }
     namespace enemy {
         extern sf::Vector2f lastPos;
-        extern int fragCounter;
-    }
-
-    namespace bullet {
-        extern float speed;
-        extern int bulletsLeft;
-        extern int maxBullets;
     }
 }
