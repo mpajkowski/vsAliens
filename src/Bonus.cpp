@@ -60,7 +60,7 @@ Bonus::handleAction(Type type, Ship& ship, enemies_Arr& enemies) {
 void
 bonuses_Arr::spawn() {
     if (getFragCounter() >= 5) {
-        Bonus newBonus(pos, static_cast<Bonus::Type>(rand() % 3));
+        Bonus newBonus(pos, static_cast<Bonus::Type>(rand() % Bonus::max));
         push_back(newBonus);
         resetFragCounter();
     }

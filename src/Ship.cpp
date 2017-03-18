@@ -52,12 +52,7 @@ Ship::fireBullet(bullets_Arr& bullets) {
 
 void
 Ship::addBullet() {
-    ++this->maxBullets;
-}
-
-bool
-Ship::getCannonStatus() {
-    return canFire;
+    ++(this->maxBullets);
 }
 
 int
@@ -72,12 +67,12 @@ Ship::getMaxBullets() {
 
 void
 Ship::addLife() {
-    ++this->lives;
+    ++(this->lives);
 }
 
 void
 Ship::removeLife() {
-    --this->lives;
+    --(this->lives);
 }
 
 int

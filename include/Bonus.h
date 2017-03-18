@@ -6,7 +6,7 @@
 class Bonus : public sf::Drawable {
 public:
     enum Type {
-        extra_life, super_bullet, extra_bullet
+        extra_life, super_bullet, extra_bullet, max
         };
 
     Type type;
@@ -37,7 +37,6 @@ private:
 class bonuses_Arr : public ObjectContainer<Bonus> {
 private:
     sf::Vector2f pos;
-   // int spawnCounter;
     int fragCounter;
 public:
     void spawn();

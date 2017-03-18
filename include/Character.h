@@ -65,6 +65,4 @@ private:
     bool isMovingUp = false;
     bool isMovingDown = false;
     float speed;
-
-    float matchSpeed();
 };

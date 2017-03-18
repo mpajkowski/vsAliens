@@ -22,21 +22,29 @@ void
 Character::updatePos(float& deltaTime) {
 
     confirmMove();
+    // match current speed
+    auto currentSpeed = [this]() -> float {
+        using std::sqrt;
+        static const float sqrt2 = static_cast<float>(sqrt(2));
+
+        return (isMovingUp xor isMovingDown) xor (isMovingLeft xor isMovingRight) ?
+                       speed : speed * sqrt2 / 2;
+    };
 
     if (getMoveFlag(left)) {
-        sprite.move(-matchSpeed() * deltaTime, 0);
+        sprite.move(-currentSpeed() * deltaTime, 0);
     }
 
     if (getMoveFlag(right)) {
-        sprite.move(matchSpeed() * deltaTime, 0);
+        sprite.move(currentSpeed() * deltaTime, 0);
     }
 
     if (getMoveFlag(down)) {
-        sprite.move(0, matchSpeed() * deltaTime);
+        sprite.move(0, currentSpeed() * deltaTime);
     }
 
     if (getMoveFlag(up)) {
-        sprite.move(0, -matchSpeed() * deltaTime);
+        sprite.move(0, -currentSpeed() * deltaTime);
     }
 }
 
@@ -133,20 +141,6 @@ Character::setMoveFlag(Dir dir, bool isMoving) {
         default:
             break;
     }
-}
-
-float
-Character::matchSpeed() {
-    using std::sqrt;
-    float currentSpeed;
-
-    if ((isMovingUp xor isMovingDown) xor (isMovingLeft xor isMovingRight)) {
-        currentSpeed = speed;
-    } else {
-        currentSpeed = speed * static_cast<float>(sqrt(2)) / 2;
-    }
-
-    return currentSpeed;
 }
 
 void

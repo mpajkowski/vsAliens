@@ -15,7 +15,7 @@ Enemy::Enemy(const sf::Texture& texture, Ship& ship) :
 
     do {
         pos.x = rand() % settings::window::WIDTH - 30;
-        pos.y = (rand() % settings::window::HEIGHT - 30) / 2;
+        pos.y = 3 * (rand() % settings::window::HEIGHT - 30) / 4;
     }
     while (ship.getPosition().x - pos.x <= 150 &&
            pos.x - ship.getPosition().x <= 150 &&
@@ -112,7 +112,7 @@ void
 enemies_Arr::update(Ship& ship, float& deltaTime) {
     spawn(ship);
 
-    for (unsigned int i = 0; i < size(); ++i) {
+    for (uint i = 0; i < size(); ++i) {
         at(i).randomMove(ship);
         at(i).updatePos(deltaTime);
     }

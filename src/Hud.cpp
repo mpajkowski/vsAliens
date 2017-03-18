@@ -2,7 +2,6 @@
 
 
 Hud::Hud(sf::Font& font) {
-
     score.setFont(font);
     score.setCharacterSize(24);
     score.setFillColor(sf::Color::Black);
@@ -64,14 +63,8 @@ Hud::updateScore(int arg) {
     this->score_i += arg;
 }
 
-int
-Hud::getScore() {
-    return score_i;
-}
-
 void
 Hud::gameOver() {
-    score.setString("");
     avBullets.setString("");
     lives.setString(":(((");
     score_i = 0;
