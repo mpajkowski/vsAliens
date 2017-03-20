@@ -58,6 +58,7 @@ protected:
     // confirm current move after setting movement flag
     void confirmMove();
 
+    virtual ~Character() {}
 private:
     sf::Sprite sprite;
     bool isMovingLeft = false;

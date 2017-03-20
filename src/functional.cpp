@@ -50,6 +50,7 @@ functional::gameOver(Hud& hud, Ship& ship, enemies_Arr& enemies, bullets_Arr& bu
     ship.reset();
     enemies.reset();
     bullets.clear();
+    bonuses.resetFragCounter();
     bonuses.clear();
 
     hud.gameOver();

@@ -57,6 +57,11 @@ Bonus::handleAction(Type type, Ship& ship, enemies_Arr& enemies) {
 }
 //////////////////////////////////////////////////////////////////////////////
 
+
+bonuses_Arr::bonuses_Arr() {
+    resetFragCounter();
+}
+
 void
 bonuses_Arr::spawn() {
     if (getFragCounter() >= 5) {

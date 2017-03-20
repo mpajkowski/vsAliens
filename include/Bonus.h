@@ -18,8 +18,6 @@ public:
 
     sf::Vector2f getPos();
 
-    void updateBullet(float& deltaTime);
-
     sf::Sprite getSprite();
 
     sf::FloatRect getBounds();
@@ -39,6 +37,7 @@ private:
     sf::Vector2f pos;
     int fragCounter;
 public:
+    bonuses_Arr();
     void spawn();
     void update();
     void updatePos(sf::Vector2f newPos);

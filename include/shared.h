@@ -33,6 +33,7 @@ public:
     using Vector::cbegin;
     using Vector::cend;
     void test() { printf("%d\n", this->size()); }
+    virtual ~ObjectContainer() {}
 private:
     //
 };
