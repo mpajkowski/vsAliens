@@ -10,7 +10,8 @@
 
 
 Enemy::Enemy(const sf::Texture& texture, Ship& ship) :
-        Character(texture, 30, 29, settings::enemy::MOVE_SPEED) {
+        Character(texture, 30, 29, settings::enemy::MOVE_SPEED)
+{
     sf::Vector2i pos;
 
     do {
@@ -25,7 +26,8 @@ Enemy::Enemy(const sf::Texture& texture, Ship& ship) :
     this->setPosition(pos.x, pos.y);
 }
 
-void Enemy::randomMove(Ship& ship) {
+void Enemy::randomMove(Ship& ship)
+{
 
     float lastMove = movementClock.getElapsedTime().asSeconds();
 
@@ -89,18 +91,21 @@ void Enemy::randomMove(Ship& ship) {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
-enemies_Arr::enemies_Arr() {
+enemies_Arr::enemies_Arr()
+{
     reset();
 }
 
 void
-enemies_Arr::reset() {
+enemies_Arr::reset()
+{
     fragCounter = 0;
     this->clear();
 }
 
 void
-enemies_Arr::spawn(Ship& ship) {
+enemies_Arr::spawn(Ship& ship)
+{
     if (spawnClock.getElapsedTime().asSeconds() > 1) {
         Enemy newEnemy = Enemy(settings::textures::enemyTexture, ship);
         push_back(newEnemy);
@@ -109,7 +114,8 @@ enemies_Arr::spawn(Ship& ship) {
 }
 
 void
-enemies_Arr::update(Ship& ship, float& deltaTime) {
+enemies_Arr::update(Ship& ship, float& deltaTime)
+{
     spawn(ship);
 
     for (uint i = 0; i < size(); ++i) {

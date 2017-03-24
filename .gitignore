@@ -8,3 +8,4 @@ obj/*
 *.layout
 .idea/*
 cmake-build-debug/*
+CMakeFiles/

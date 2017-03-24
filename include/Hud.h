@@ -3,7 +3,8 @@
 #include "shared.h"
 #include "Ship.h"
 
-class Hud : public sf::Drawable {
+class Hud : public sf::Drawable
+{
 public:
     Hud(sf::Font& font);
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;

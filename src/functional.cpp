@@ -12,7 +12,8 @@
 void
 functional::handleEvents(sf::Event& event, sf::RenderWindow& window,
                          Hud& hud, Ship& ship, bullets_Arr& bullets,
-                         sf::Clock& clock, float& deltaTime) {
+                         sf::Clock& clock, float& deltaTime)
+{
     while (window.pollEvent(event)) {
         switch (event.type) {
             case sf::Event::Closed :
@@ -37,7 +38,8 @@ functional::handleEvents(sf::Event& event, sf::RenderWindow& window,
 }
 
 void
-functional::handleShipMovement(Ship& ship) {
+functional::handleShipMovement(Ship& ship)
+{
     ship.setMoveFlag(Ship::up, sf::Keyboard::isKeyPressed(sf::Keyboard::W));
     ship.setMoveFlag(Ship::down, sf::Keyboard::isKeyPressed(sf::Keyboard::S));
     ship.setMoveFlag(Ship::right, sf::Keyboard::isKeyPressed(sf::Keyboard::D));
@@ -46,7 +48,8 @@ functional::handleShipMovement(Ship& ship) {
 
 void
 functional::gameOver(Hud& hud, Ship& ship, enemies_Arr& enemies, bullets_Arr& bullets,
-            bonuses_Arr& bonuses) {
+            bonuses_Arr& bonuses)
+{
     ship.reset();
     enemies.reset();
     bullets.clear();
@@ -59,7 +62,8 @@ functional::gameOver(Hud& hud, Ship& ship, enemies_Arr& enemies, bullets_Arr& bu
 
 void
 functional::drawScreen(sf::RenderWindow& window, Hud& hud, Ship& ship, enemies_Arr& enemies,
-                       bullets_Arr& bullets, bonuses_Arr& bonuses) {
+                       bullets_Arr& bullets, bonuses_Arr& bonuses)
+{
     window.clear(sf::Color::White);
     window.draw(ship);
 
@@ -82,7 +86,8 @@ functional::drawScreen(sf::RenderWindow& window, Hud& hud, Ship& ship, enemies_A
 
 void
 functional::enemyCollisions(Hud& hud, Ship& ship, enemies_Arr& enemies, bullets_Arr& bullets,
-                            bonuses_Arr& bonuses) {
+                            bonuses_Arr& bonuses)
+{
     for (uint i = 0; i < enemies.size();) {
         for (uint j = 0; j < bullets.size();) {
             if (bullets[ j ].getBounds().intersects(enemies[ i ].getBounds())) {
@@ -112,7 +117,8 @@ functional::enemyCollisions(Hud& hud, Ship& ship, enemies_Arr& enemies, bullets_
 }
 
 void
-functional::bonusesCollisions(Hud& hud, Ship& ship, enemies_Arr& enemies, bonuses_Arr& bonuses) {
+functional::bonusesCollisions(Hud& hud, Ship& ship, enemies_Arr& enemies, bonuses_Arr& bonuses)
+{
     for (uint i = 0; i < bonuses.size(); ++i) {
         if (ship.getBounds().intersects(bonuses[ i ].getBounds())) {
             switch (bonuses[ i ].type) {
@@ -137,7 +143,8 @@ functional::bonusesCollisions(Hud& hud, Ship& ship, enemies_Arr& enemies, bonuse
 
 void
 functional::handleCollisions(Hud& hud, Ship& ship, enemies_Arr& enemies, bullets_Arr& bullets,
-                            bonuses_Arr& bonuses) {
+                            bonuses_Arr& bonuses)
+{
     enemyCollisions(hud, ship, enemies, bullets, bonuses);
     bonusesCollisions(hud, ship, enemies, bonuses);
 }

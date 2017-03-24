@@ -16,7 +16,8 @@
 typedef unsigned int uint;
 
 template<typename T>
-class ObjectContainer : private std::vector<T> {
+class ObjectContainer : private std::vector<T>
+{
 public:
     typedef std::vector<T> Vector;
     using Vector::clear;

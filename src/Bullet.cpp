@@ -5,7 +5,8 @@
 #include "../include/shared.h"
 #include "../include/Bullet.h"
 
-Bullet::Bullet(sf::Vector2f pos) {
+Bullet::Bullet(sf::Vector2f pos)
+{
     texture.loadFromFile("images/bullet.bmp");
 
     sprite.setTexture(texture);
@@ -18,29 +19,34 @@ Bullet::Bullet(sf::Vector2f pos) {
 }
 
 void
-Bullet::draw(sf::RenderTarget &target, sf::RenderStates states) const {
+Bullet::draw(sf::RenderTarget &target, sf::RenderStates states) const
+{
     target.draw(sprite, states);
 }
 
 sf::Vector2f
-Bullet::getPos() {
+Bullet::getPos()
+{
     return sprite.getPosition();
 }
 
 void
-Bullet::updateBullet(float& deltaTime) {
+Bullet::updateBullet(float& deltaTime)
+{
     sprite.move(0, -500 * deltaTime);
 }
 
 sf::FloatRect
-Bullet::getBounds() {
+Bullet::getBounds()
+{
     return sprite.getGlobalBounds();
 }
 
 ////////////////////////////////////////////////////////////////////////
 
 void
-bullets_Arr::update(float& deltaTime) {
+bullets_Arr::update(float& deltaTime)
+{
     for (unsigned int i = 0; i < size(); ++i) {
         at(i).updateBullet(deltaTime);
 

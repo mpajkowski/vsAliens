@@ -7,23 +7,27 @@
 
 #include "../include/Character.h"
 
-Character::Character(const sf::Texture& texture, float x, float y, float speed) {
+Character::Character(const sf::Texture& texture, float x, float y, float speed)
+{
     sprite.setTexture(texture);
     sprite.setOrigin(x, y);
     this->speed = speed;
 }
 
 void
-Character::draw(sf::RenderTarget& target, sf::RenderStates states) const {
+Character::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
     target.draw(sprite, states);
 }
 
 void
-Character::updatePos(float& deltaTime) {
+Character::updatePos(float& deltaTime)
+{
 
     confirmMove();
     // match current speed
-    auto currentSpeed = [this]() -> float {
+    auto currentSpeed = [this]() -> float
+    {
         using std::sqrt;
         static const float sqrt2 = static_cast<float>(sqrt(2));
 
@@ -49,7 +53,8 @@ Character::updatePos(float& deltaTime) {
 }
 
 bool
-Character::getMoveFlag(Dir dir) {
+Character::getMoveFlag(Dir dir)
+{
     using std::endl;
 
     bool flagValue = false;
@@ -74,7 +79,8 @@ Character::getMoveFlag(Dir dir) {
 }
 
 void
-Character::confirmMove() {
+Character::confirmMove()
+{
     if (getMoveFlag(left) && !canMove(left)) {
         setMoveFlag(left, false);
     }
@@ -95,7 +101,8 @@ Character::confirmMove() {
 }
 
 bool
-Character::canMove(Dir dir) {
+Character::canMove(Dir dir)
+{
     bool canMove = false;
 
     switch (dir) {
@@ -119,12 +126,14 @@ Character::canMove(Dir dir) {
 }
 
 sf::Vector2f
-Character::getPosition() {
+Character::getPosition()
+{
     return sprite.getPosition();
 }
 
 void
-Character::setMoveFlag(Dir dir, bool isMoving) {
+Character::setMoveFlag(Dir dir, bool isMoving)
+{
     switch (dir) {
         case right :
             this->isMovingRight = isMoving;
@@ -144,11 +153,13 @@ Character::setMoveFlag(Dir dir, bool isMoving) {
 }
 
 void
-Character::setPosition(float x, float y) {
+Character::setPosition(float x, float y)
+{
     sprite.setPosition(x, y);
 }
 
 sf::FloatRect
-Character::getBounds() {
+Character::getBounds()
+{
     return sprite.getGlobalBounds();
 }

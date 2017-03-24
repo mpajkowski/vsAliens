@@ -11,7 +11,8 @@
 #include "../include/Character.h"
 #include "../include/Ship.h"
 
-class Enemy : public Character {
+class Enemy : public Character
+{
 public:
     Enemy(const sf::Texture& texture, Ship& ship);
 
@@ -26,7 +27,8 @@ private:
     bool wantMoveUp = false;
 };
 
-class enemies_Arr : public ObjectContainer<Enemy> {
+class enemies_Arr : public ObjectContainer<Enemy>
+{
     public:
         enemies_Arr();
         void reset();

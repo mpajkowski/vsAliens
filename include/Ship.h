@@ -11,7 +11,8 @@
 #include "Character.h"
 #include "Bullet.h"
 
-class Ship : public Character {
+class Ship : public Character
+{
 public:
     Ship(const sf::Texture& texture);
     void reset();

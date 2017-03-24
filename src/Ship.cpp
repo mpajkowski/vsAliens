@@ -8,12 +8,14 @@
 #include "../include/Ship.h"
 
 Ship::Ship(const sf::Texture& texture) :
-        Character(texture, 30, 24, settings::ship::MOVE_SPEED) {
+        Character(texture, 30, 24, settings::ship::MOVE_SPEED)
+{
     reset();
 }
 
 void
-Ship::reset() {
+Ship::reset()
+{
     this->setPosition(500, 600);
     canFire = true;
     reloadClockRestarted = false;
@@ -23,7 +25,8 @@ Ship::reset() {
 }
 
 void
-Ship::updateCannonStatus() {
+Ship::updateCannonStatus()
+{
     if (bulletsLeft < 1) {
         canFire = false;
 
@@ -42,7 +45,8 @@ Ship::updateCannonStatus() {
 }
 
 void
-Ship::fireBullet(bullets_Arr& bullets) {
+Ship::fireBullet(bullets_Arr& bullets)
+{
     if (canFire) {
         Bullet newBullet(getPosition());
         bullets.push_back(newBullet);
@@ -51,31 +55,37 @@ Ship::fireBullet(bullets_Arr& bullets) {
 }
 
 void
-Ship::addBullet() {
+Ship::addBullet()
+{
     ++(this->maxBullets);
 }
 
 int
-Ship::getBulletsLeft() {
+Ship::getBulletsLeft()
+{
     return bulletsLeft;
 }
 
 int
-Ship::getMaxBullets() {
+Ship::getMaxBullets()
+{
     return maxBullets;
 }
 
 void
-Ship::addLife() {
+Ship::addLife()
+{
     ++(this->lives);
 }
 
 void
-Ship::removeLife() {
+Ship::removeLife()
+{
     --(this->lives);
 }
 
 int
-Ship::getLives() {
+Ship::getLives()
+{
     return this->lives;
 }

@@ -1,7 +1,8 @@
 #include "../include/Hud.h"
 
 
-Hud::Hud(sf::Font& font) {
+Hud::Hud(sf::Font& font)
+{
     score.setFont(font);
     score.setCharacterSize(24);
     score.setFillColor(sf::Color::Black);
@@ -21,14 +22,16 @@ Hud::Hud(sf::Font& font) {
 }
 
 void
-Hud::draw(sf::RenderTarget& target, sf::RenderStates states) const {
+Hud::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
     target.draw(score, states);
     target.draw(avBullets, states);
     target.draw(lives, states);
 }
 
 void
-Hud::update(Ship& ship) {
+Hud::update(Ship& ship)
+{
     std::string scoreMsg = "Score: " + std::to_string(score_i);
     score.setString(scoreMsg);
 
@@ -49,22 +52,26 @@ Hud::update(Ship& ship) {
 }
 
 void
-Hud::setGameStatus(bool isActive) {
+Hud::setGameStatus(bool isActive)
+{
     this->gameStatus = isActive;
 }
 
 bool
-Hud::getGameStatus() {
+Hud::getGameStatus()
+{
     return gameStatus;
 }
 
 void
-Hud::updateScore(int arg) {
+Hud::updateScore(int arg)
+{
     this->score_i += arg;
 }
 
 void
-Hud::gameOver() {
+Hud::gameOver()
+{
     avBullets.setString("");
     lives.setString(":(((");
     score_i = 0;

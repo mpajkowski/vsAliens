@@ -7,27 +7,27 @@
 #include "shared.h"
 
 namespace settings {
-    namespace window {
-        extern const unsigned int WIDTH;
-        extern const unsigned int HEIGHT;
-    }
+namespace window {
+extern const unsigned int WIDTH;
+extern const unsigned int HEIGHT;
+}
 
-    namespace ship {
-        extern const float MOVE_SPEED;
-    }
+namespace ship {
+extern const float MOVE_SPEED;
+}
 
-    namespace enemy {
-        extern const float MOVE_SPEED;
-    }
+namespace enemy {
+extern const float MOVE_SPEED;
+}
 
-    namespace textures {
-        extern sf::Font font;
-        extern sf::Texture shipTexture;
-        extern sf::Texture enemyTexture;
-    }
+namespace textures {
+extern sf::Font font;
+extern sf::Texture shipTexture;
+extern sf::Texture enemyTexture;
+}
 
-    namespace bullet {
-        extern float speed;
-        extern int maxBullets;
-        }
+namespace bullet {
+extern float speed;
+extern int maxBullets;
+}
 }

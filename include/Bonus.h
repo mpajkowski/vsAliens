@@ -3,7 +3,8 @@
 #include "../include/shared.h"
 #include "../include/Enemy.h"
 
-class Bonus : public sf::Drawable {
+class Bonus : public sf::Drawable
+{
 public:
     enum Type {
         extra_life, super_bullet, extra_bullet, max
@@ -32,7 +33,8 @@ private:
     sf::Clock spawnClock;
 };
 
-class bonuses_Arr : public ObjectContainer<Bonus> {
+class bonuses_Arr : public ObjectContainer<Bonus>
+{
 private:
     sf::Vector2f pos;
     int fragCounter;

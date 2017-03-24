@@ -6,7 +6,8 @@
 
 #include "../include/shared.h"
 
-class Bullet : public sf::Drawable {
+class Bullet : public sf::Drawable
+{
 public:
     Bullet(sf::Vector2f pos);
 
@@ -27,7 +28,8 @@ private:
     sf::Vector2f pos;
 };
 
-class bullets_Arr : public ObjectContainer<Bullet> {
+class bullets_Arr : public ObjectContainer<Bullet>
+{
 public:
     void update(float& deltaTime);
     void reset();

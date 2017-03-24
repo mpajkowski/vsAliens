@@ -9,7 +9,8 @@
 #include "../include/functional.h"
 
 
-int main() {
+int main()
+{
     /////////////////////////////////////////////////
     // random seed
     srand((unsigned int) time(0));

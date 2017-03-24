@@ -6,7 +6,8 @@
 
 #include "../include/shared.h"
 
-class Character : public sf::Drawable {
+class Character : public sf::Drawable
+{
 public:
     /////////////////////////////////////////////////////////////////////////////
     // Default constructor
